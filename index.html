@@ -1,403 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOS — KHOR User & Password</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; overflow:hidden; }
-body { font-family:Calibri,Arial,sans-serif; background:#f0f4f8; font-size:13px; display:flex; flex-direction:column; height:100vh; }
-
-.header { background:linear-gradient(135deg,#1a3a5c,#2E75B6); color:white; padding:9px 16px; flex-shrink:0; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-.header h1 { font-size:14px; font-weight:bold; }
-.header small { font-size:10px; opacity:.8; }
-.header-links { display:flex; gap:6px; flex-wrap:wrap; }
-.tos-btn { color:#90CAF9; font-size:11px; text-decoration:none; background:rgba(255,255,255,.15); padding:4px 10px; border-radius:10px; white-space:nowrap; border:none; cursor:pointer; }
-.tos-btn:hover { background:rgba(255,255,255,.3); }
-
-.searchbar { background:#fff; padding:7px 14px; flex-shrink:0; border-bottom:2px solid #2E75B6; display:flex; align-items:center; gap:7px; flex-wrap:wrap; box-shadow:0 2px 6px rgba(0,0,0,.1); }
-.searchbar input[type=text] { flex:1; min-width:140px; padding:6px 12px; border:2px solid #2E75B6; border-radius:6px; font-size:13px; outline:none; }
-.searchbar input[type=text]:focus { border-color:#1a3a5c; background:#f0f7ff; }
-.btn { padding:6px 11px; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold; white-space:nowrap; }
-.btn:hover { opacity:.85; }
-#count { font-size:12px; color:#555; white-space:nowrap; font-weight:bold; }
-#syncStatus { font-size:11px; padding:3px 8px; border-radius:10px; white-space:nowrap; }
-.sync-ok { background:#E8F5E9; color:#2E7D32; }
-.sync-err { background:#FFEBEE; color:#c00; }
-.sync-loading { background:#FFF8E1; color:#F57F17; }
-
-#settingsPanel { display:none; background:#FFF8E1; flex-shrink:0; border-bottom:2px solid #FFC107; padding:10px 14px; }
-#settingsPanel.open { display:block; }
-.sg { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-.sr { display:flex; align-items:center; gap:6px; background:#fff; border-radius:8px; padding:6px 10px; border:1px solid #eee; }
-.sr label { font-size:11px; font-weight:bold; color:#5D4037; white-space:nowrap; }
-.stepper { display:flex; align-items:center; gap:3px; }
-.stepper button { width:24px; height:24px; border:1px solid #ccc; border-radius:4px; background:#f5f5f5; cursor:pointer; font-size:14px; font-weight:bold; line-height:1; }
-.stepper button:hover { background:#ddd; }
-.sval { min-width:40px; text-align:center; font-size:12px; font-weight:bold; color:#1F4E79; border:1px solid #ddd; border-radius:4px; padding:1px 4px; }
-.cr { display:flex; align-items:center; gap:6px; background:#fff; border-radius:8px; padding:6px 10px; border:1px solid #eee; }
-.cr label { font-size:11px; font-weight:bold; color:#5D4037; white-space:nowrap; }
-.cr input[type=color] { width:34px; height:26px; border:1px solid #ccc; cursor:pointer; border-radius:4px; }
-
-#importPanel { display:none; background:#E8F5E9; flex-shrink:0; border-bottom:2px solid #4CAF50; padding:10px 14px; }
-#importPanel.open { display:block; }
-.import-inner { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start; }
-.import-info { font-size:11px; color:#2E7D32; background:#fff; border:1px solid #A5D6A7; border-radius:6px; padding:8px 12px; flex:1; min-width:200px; }
-.import-info b { display:block; margin-bottom:4px; }
-.import-info code { background:#f5f5f5; padding:1px 4px; border-radius:3px; font-size:11px; }
-.file-drop { border:2px dashed #4CAF50; border-radius:8px; padding:12px 20px; text-align:center; cursor:pointer; background:#fff; min-width:160px; }
-.file-drop:hover { background:#F1F8E9; }
-.file-drop input { display:none; }
-.file-drop p { font-size:12px; color:#555; margin-top:4px; }
-
-#tableWrap { flex:1; overflow:auto; }
-table { width:100%; border-collapse:collapse; min-width:480px; }
-thead tr { background:#2E75B6; color:#fff; position:sticky; top:0; z-index:10; }
-thead th { padding:7px 10px; text-align:left; font-size:12px; font-weight:bold; white-space:nowrap; border-right:1px solid rgba(255,255,255,.2); }
-thead th:first-child { width:38px; text-align:center; }
-tbody tr.odd-row { background:#fff; }
-tbody tr.even-row { background:#DEEAF1; }
-tbody tr:hover { background:#BDD7EE !important; }
-td { padding:5px 10px; border:1px solid #ddd; white-space:nowrap; vertical-align:middle; }
-td:first-child { text-align:center; color:#999; font-size:11px; }
-.pw-cell { font-family:monospace; color:#1a3a5c; font-weight:bold; }
-.note-cell { color:#c0392b; font-size:11px; font-style:italic; }
-.copy-btn { background:none; border:1px solid #bbb; border-radius:4px; padding:1px 6px; cursor:pointer; font-size:11px; color:#555; margin-left:3px; }
-.copy-btn:hover { background:#e8e8e8; }
-.copied { background:#4CAF50!important; color:#fff!important; border-color:#4CAF50!important; }
-.del-btn { background:#c00; color:#fff; border:none; border-radius:4px; padding:2px 7px; cursor:pointer; font-size:11px; }
-.co-cell { cursor:pointer; }
-.co-cell:hover { background:#e3f2fd !important; }
-.no-result { text-align:center; padding:40px; color:#999; font-size:14px; }
-.footer { padding:4px 14px; font-size:11px; color:#aaa; background:#eee; border-top:1px solid #ccc; flex-shrink:0; }
-#toast { position:fixed; bottom:60px; left:50%; transform:translateX(-50%); background:#1a3a5c; color:#fff; padding:10px 20px; border-radius:10px; font-size:13px; z-index:9999; max-width:90%; text-align:center; white-space:pre-line; box-shadow:0 4px 16px rgba(0,0,0,.3); opacity:0; transition:opacity .3s; pointer-events:none; }
-</style>
+    <title>Credentials Manager</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        input { width: 90%; }
+        button { padding: 10px 20px; margin-bottom: 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
+    <button onclick="loadData()">Sync Data</button>
+    <button onclick="saveData()">Save All Changes</button>
+    <table>
+        <thead><tr><th>SL</th><th>Company</th><th>User</th><th>Password</th><th>Note</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 
-<div class="header">
-  <div style="display:flex;align-items:center;gap:10px">
-    <span style="font-size:20px">🔐</span>
-    <div><h1>TOS — KHOR User &amp; Password</h1><small>Gulftainer Terminal Operating System</small></div>
-  </div>
-  <div class="header-links">
-    <a class="tos-btn" href="https://tos.gulftainer.com/" target="_blank">🌐 TOS Login</a>
-    <a class="tos-btn" href="https://eservices.gulftainer.com/a/e-token-generator/login" target="_blank">🎫 E-Token</a>
-    <a class="tos-btn" href="https://customer-registration.gulftainer.com/home" target="_blank">📋 Registration</a>
-    <a class="tos-btn" href="https://www.gulftainer.com/container-tracking/" target="_blank">🔍 Container Tracking</a>
-  </div>
-</div>
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz-sSfP6nEYYBRZH-trkbhPvaW4HzzZAiGImQFuVJum5nFYr18Jouw0DPSgWb-EtMqafA/exec";
 
-<div class="searchbar">
-  <span style="font-size:14px;color:#1a3a5c">🔍</span>
-  <input type="text" id="searchInput" placeholder="কোম্পানির নাম, USER বা SL নাম্বার..." oninput="filterTable()">
-  <button class="btn" style="background:#e0e0e0;color:#333" onclick="clearSearch()">✕</button>
-  <span id="count"></span>
-  <span id="syncStatus" class="sync-loading">⟳ Loading...</span>
-  <button class="btn" style="background:#FF8C00;color:#fff" id="editBtn" onclick="toggleEdit()">✏️ এডিট</button>
-  <button class="btn" style="background:#107C10;color:#fff;display:none" id="addBtn" onclick="addRow()">➕ নতুন</button>
-  <button class="btn" style="background:#1a3a5c;color:#fff;display:none" id="saveBtn" onclick="saveAll()">💾 সেভ</button>
-  <button class="btn" style="background:#c00;color:#fff;display:none" id="cancelBtn" onclick="cancelEdit()">✕ বাতিল</button>
-  <button class="btn" style="background:#2E7D32;color:#fff" onclick="toggleImport()">📥 CSV</button>
-  <button class="btn" style="background:#1565C0;color:#fff" onclick="syncFromSheet()">🔄 Sync</button>
-  <button class="btn" style="background:#607D8B;color:#fff" onclick="toggleSettings()">⚙️</button>
-</div>
+        async function loadData() {
+            const res = await fetch(WEB_APP_URL);
+            const data = await res.json();
+            renderTable(data.rows);
+        }
 
-<div id="importPanel">
-  <div class="import-inner">
-    <div class="import-info">
-      <b>📋 CSV ফরম্যাট:</b>
-      <code>SL,COMPANY NAME,USER,PASSWORD,NOTE</code><br><br>
-      ⚠️ Import করলে বিদ্যমান data replace হবে।
-    </div>
-    <div class="file-drop" onclick="document.getElementById('csvFile').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event)">
-      <input type="file" id="csvFile" accept=".csv" onchange="handleCSV(this.files[0])">
-      <span style="font-size:28px">📂</span>
-      <p><b>CSV drag করুন</b><br>বা ক্লিক করুন</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:6px;">
-      <button class="btn" style="background:#1a3a5c;color:#fff" onclick="exportCSV()">⬇️ Export CSV</button>
-      <button class="btn" style="background:#e0e0e0;color:#333" onclick="toggleImport()">✕ বন্ধ</button>
-    </div>
-  </div>
-</div>
+        function renderTable(rows) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = rows.map((r, i) => `
+                <tr>
+                    <td>${i+1}</td>
+                    <td><input value="${r.company}" id="comp_${i}"></td>
+                    <td><input value="${r.user}" id="user_${i}"></td>
+                    <td><input value="${r.password}" id="pass_${i}"></td>
+                    <td><input value="${r.note}" id="note_${i}"></td>
+                </tr>
+            `).join('');
+        }
 
-<div id="settingsPanel">
-  <div class="sg">
-    <div class="sr"><label>রো উচ্চতা:</label><div class="stepper"><button onclick="step('rowH',-2)">−</button><span class="sval" id="rowH-val">32px</span><button onclick="step('rowH',2)">+</button></div></div>
-    <div class="sr"><label>ফন্ট সাইজ:</label><div class="stepper"><button onclick="step('fontSize',-1)">−</button><span class="sval" id="fontSize-val">13px</span><button onclick="step('fontSize',1)">+</button></div></div>
-    <div class="cr"><label>হেডার রং:</label><input type="color" id="headerColor" value="#2E75B6" oninput="applyStyles()"></div>
-    <div class="cr"><label>বিজোড় রো:</label><input type="color" id="oddColor" value="#ffffff" oninput="applyStyles()"></div>
-    <div class="cr"><label>জোড় রো:</label><input type="color" id="evenColor" value="#DEEAF1" oninput="applyStyles()"></div>
-    <button class="btn" style="background:#c00;color:#fff;font-size:11px" onclick="if(confirm('সব ডাটা মুছবে?')){rows=[];pushToSheet();buildRows();}">🗑 সব মুছুন</button>
-  </div>
-</div>
-
-<div id="tableWrap">
-  <table><thead id="thead"><tr><th>#</th><th>COMPANY NAME</th><th>USER</th><th>PASSWORD</th><th>NOTE</th></tr></thead>
-  <tbody id="tbody"></tbody></table>
-  <div class="no-result" id="noResult" style="display:none">কোনো ফলাফল পাওয়া যায়নি 😕</div>
-</div>
-<div class="footer" id="footer"></div>
-<div id="toast"></div>
-<style id="dynStyle"></style>
-
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyhrTOR903NWJEruC5m7JDZexxuXP6g9BxflT_qBMTPpIs1Ddh2M_eHY1dWYnnwvOP_uA/exec";
-let rows = [[1, "SEA SHIPPING LLC", "S3250", "Windows@123", ""], [2, "SMAG GENERAL", "S9527", "Windows@123", ""], [3, "S A E FOODSTUFF TRA", "S7865", "Windows@123", ""], [4, "AL HAMOOR", "A13170", "Windows@123", ""], [5, "RIGHTWAY FOOD", "RWAY", "Windows@123", ""], [6, "AL SHAM", "SHFF", "Windows@123", ""], [7, "BACKET FOOD", "B1260", "Windows@123", ""], [8, "OCEAN KING FOODS", "OKFT", "Windows@123", ""], [9, "TRITON-T2500", "TRIT", "Windows@123", ""], [10, "RUSHING WATER", "R3434", "Windows@123", ""], [11, "ONE DAY ONE", "O3205", "Faisal123@", ""], [12, "OCTAGON GENERAL", "O3214", "Windows@123", ""], [13, "SAHAR ENTPRISES", "SAHR", "Windows@123", ""], [14, "GREEN HOUSE", "ENHO", "Windows@123", ""], [15, "AL JAD AUTO SPARE", "A3061", "Windows@123", ""], [16, "DEIRA CASTLE", "D2916", "Windows@123", ""], [17, "BELLOMASSI", "B1854", "Windows@123", "এটা পেমেন্ট করা যাবে না"], [18, "STAR DRILLING", "S3475", "Windows@123", ""], [19, "MOHD JAVID", "M6820", "Windows@123", ""], [20, "FALCON GLOBAL", "FALG", "Windows@123", ""], [21, "ALLIANCE", "AFC", "Windows@123", ""], [22, "CASCADE C0057--SAJAA", "CMF", "Windows@123 // Z@jBA,4wx", "AFC"], [23, "HRA GENERAL", "H2846", "Windows@123", ""], [23, "MISBAH AL KHALEEJ", "M6227", "Windows@123", ""], [24, "AL RAFAH FOODSTUFF", "A20413", "Windows@123", ""], [25, "AAA GENERAL TR LLC", "A1605", "Windows@123", ""], [26, "SAHAR FOOD IND", "SAHF", "Sahar1234@", ""], [27, "DAG MOTORS", "DMFZ", "Windows@123", ""], [28, "SENARAT AL BAHAR", "S9957", "Windows@123", ""], [29, "JANA T A FZE", "J1327", "Windows@123", ""], [30, "PAVIT GENERAL", "P3787", "Pass@123", ""], [31, "TWIN PEAKS", "T2075", "Windows@123", ""], [32, "AMPACET MEA FZE", "A20829", "Windows@123", ""], [33, "AKM FOODSTUFF", "A6151", "Windows@123", ""], [34, "SINGH FOODSTUFF", "S9945", "Windows@123", ""], [35, "DR NUTRATION", "NUTCENDXB", "Windows@123", ""], [36, "AL SURYA STONE", "A25010", "Pass@123", ""], [37, "KAMI FOODS", "KFTL", "Windows@123", ""], [38, "AL BAHAR ALMUTAMIZ", "A22791", "Windows@123", ""], [39, "JIBON TRADING", "J1358", "Windows@123", ""], [40, "ABAD SEAFOOD", "ADAS", "Windows@123", ""], [41, "GOURMET FOOD", "GORM", "Windows@123", ""], [42, "CONTINENTAL FOODS LLC", "CFE", "Windows@123", ""], [43, "EAZY PACK-TALAL", "E3980", "Windows@123", ""], [44, "QAMAR ALAHMAR", "Q0706", "Windows@123", ""], [45, "FAL TRADING", "F3445", "Windows@123", ""], [46, "KHAIR AL MADINAH", "K1519", "Windows@123", ""], [47, "ASALA COFFEE", "A25167", "Win@1234", ""], [48, "AL RABEE HADI", "A19244", "Windows@123", ""], [49, "NOOR AL FALAQ", "N1681", "Windows@123", ""], [50, "SIX BROTHER", "S0707", "Win@1234", ""], [51, "AL BERJAS TRADING LLC", "A25322", "Windows@123", ""], [52, "AMRUTH FISH", "A22190", "Windows@123", ""], [53, "BARKAT ALKHAIR", "B3639", "Windows@123", ""], [54, "AL BARJES", "A25322", "Windows@123", ""], [55, "CONTROL SAFETY", "C3668", "Windows@123", ""], [56, "RASCO TYRE", "R3198", "Windows@123", ""], [57, "NOOR ALBAHAR", "N2276", "Windows@123", ""], [58, "OSA INDUSTRIES", "O3292", "Windows@786", ""], [59, "SUBLIME GENERAL", "S6064", "Windows@123", ""], [60, "FALCON EYE", "FAEM", "Windows@123", ""], [61, "BLUE WAVE", "B3376", "SUMAIR@2479", ""], [62, "AL MOZAINAB", "A22281", "Windows@123", ""], [63, "OPTITECT FOOD", "O3295", "Windows@123", ""], [64, "ENZO AUTO SPARE", "E4037", "Windows@123", "KHOR"], [65, "EMIRATE EXTRUDED", "E3801", "Nasar@2026", ""]];
-let editMode = false;
-const sv = {rowH:32, fontSize:13};
-let lastClickedCell = null;
-
-/* ── GOOGLE SHEETS SYNC ── */
-function syncFromSheet() {
-  setSyncStatus("loading", "⟳ Syncing...");
-  fetch(API_URL)
-    .then(r => r.json())
-    .then(data => {
-      if (data.status === "ok" && data.rows && data.rows.length > 0) {
-        rows = data.rows.map((r,i) => [i+1, r.company, r.user, r.password, r.note]);
-        buildRows();
-        setSyncStatus("ok", "✅ Synced");
-        showToast("✅ Google Sheets থেকে " + rows.length + " টি load হয়েছে!");
-      } else {
-        setSyncStatus("ok", "✅ Online");
-        showToast("⚠️ Sheet এ data নেই, local data দেখাচ্ছে");
-      }
-    })
-    .catch(e => {
-      setSyncStatus("err", "❌ Offline");
-      showToast("❌ Sync হয়নি — Offline mode চলছে");
-    });
-}
-
-function pushToSheet() {
-  setSyncStatus("loading", "⟳ Saving...");
-  fetch(API_URL, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({action:"save", rows})
-  })
-  .then(r => r.json())
-  .then(data => {
-    setSyncStatus("ok", "✅ Saved");
-    showToast("✅ Google Sheets এ সেভ হয়েছে!");
-  })
-  .catch(e => {
-    setSyncStatus("err", "❌ Save failed");
-    showToast("❌ Save হয়নি! Internet check করুন।");
-  });
-}
-
-function setSyncStatus(type, msg) {
-  const el = document.getElementById("syncStatus");
-  el.textContent = msg;
-  el.className = "sync-" + type;
-}
-
-/* ── BUILD TABLE ── */
-function buildRows() {
-  const tbody = document.getElementById("tbody");
-  tbody.innerHTML = "";
-  const thead = document.getElementById("thead");
-  thead.innerHTML = editMode
-    ? `<tr><th>#</th><th>COMPANY NAME</th><th>USER</th><th>PASSWORD</th><th>NOTE</th><th>DEL</th></tr>`
-    : `<tr><th>#</th><th>COMPANY NAME</th><th>USER</th><th>PASSWORD</th><th>NOTE</th></tr>`;
-
-  rows.forEach((r, i) => {
-    const [sl, co, user, pw, note] = r;
-    const rc = i%2===0 ? "odd-row" : "even-row";
-    const safe = s => String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-    const tr = document.createElement("tr");
-    tr.className = rc;
-    tr.dataset.index = String(i+1);
-    tr.dataset.name = (co+" "+user).toLowerCase();
-    if (editMode) {
-      tr.innerHTML = `<td>${sl}</td>
-        <td><input type="text" value="${safe(co)}" style="width:140px;border:1px solid #2E75B6;border-radius:4px;padding:2px 5px;font-size:12px"></td>
-        <td><input type="text" value="${safe(user)}" style="width:80px;border:1px solid #2E75B6;border-radius:4px;padding:2px 5px;font-size:12px"></td>
-        <td><input type="text" value="${safe(pw)}" style="width:120px;border:1px solid #2E75B6;border-radius:4px;padding:2px 5px;font-size:12px"></td>
-        <td><input type="text" value="${safe(note)}" style="width:110px;border:1px solid #2E75B6;border-radius:4px;padding:2px 5px;font-size:12px"></td>
-        <td><button class="del-btn" onclick="deleteRow(${i})">🗑</button></td>`;
-    } else {
-      tr.innerHTML = `<td>${sl}</td>
-        <td class="co-cell" onclick="companyClick(this,'${safe(user)}','${safe(pw)}')" title="1ম ক্লিক: Username copy | 2য় ক্লিক: Password copy">
-          <strong>${safe(co)}</strong> <span style="font-size:10px;color:#aaa">👆</span></td>
-        <td class="pw-cell">${safe(user)} <button class="copy-btn" onclick="copyText('${safe(user)}',this)">📋</button></td>
-        <td class="pw-cell">${safe(pw)} <button class="copy-btn" onclick="copyText('${safe(pw)}',this)">📋</button></td>
-        <td>${note ? `<span class="note-cell">⚠️ ${safe(note)}</span>` : ""}</td>`;
-    }
-    tbody.appendChild(tr);
-  });
-  filterTable();
-}
-
-/* ── FILTER ── */
-function filterTable() {
-  const raw = document.getElementById("searchInput").value.trim();
-  const q = raw.toLowerCase();
-  const isNum = /^\d+$/.test(raw);
-  let visible = 0;
-  document.querySelectorAll("#tbody tr").forEach(tr => {
-    const show = raw==="" ? true : isNum ? tr.dataset.index===raw : tr.dataset.name.includes(q);
-    tr.style.display = show ? "" : "none";
-    if (show) visible++;
-  });
-  const total = rows.length;
-  document.getElementById("count").textContent = raw ? `${visible} / ${total} টি` : `মোট ${total} টি`;
-  document.getElementById("noResult").style.display = (visible===0 && raw!=="") ? "block" : "none";
-  document.getElementById("footer").textContent = `মোট: ${total} টি  |  Google Sheets Sync সক্রিয়`;
-}
-
-function clearSearch() { document.getElementById("searchInput").value=""; filterTable(); document.getElementById("searchInput").focus(); }
-
-/* ── COMPANY 2-STEP CLICK ── */
-function companyClick(cell, user, pw) {
-  if (lastClickedCell !== cell) {
-    lastClickedCell = cell;
-    copyToClipboard(user);
-    showToast("✅ Username: " + user + "\n🌐 TOS খুলছে...");
-    setTimeout(() => window.open("https://tos.gulftainer.com/","_blank"), 400);
-    cell.style.background="#E8F5E9"; cell.style.borderLeft="4px solid #4CAF50";
-    cell.querySelector("span").textContent="🔑 আবার ক্লিক = Password";
-  } else {
-    lastClickedCell = null;
-    copyToClipboard(pw);
-    showToast("🔑 Password: " + pw);
-    cell.style.background="#FFF3E0"; cell.style.borderLeft="4px solid #FF8C00";
-    cell.querySelector("span").textContent="👆";
-    setTimeout(()=>{ cell.style.background=""; cell.style.borderLeft=""; },2000);
-  }
-}
-
-function copyToClipboard(text) {
-  try { navigator.clipboard.writeText(text); } catch(e) {
-    const ta=document.createElement("textarea"); ta.value=text;
-    document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
-  }
-}
-function copyText(text, btn) {
-  copyToClipboard(text); btn.textContent="✓"; btn.classList.add("copied");
-  setTimeout(()=>{ btn.textContent="📋"; btn.classList.remove("copied"); },1500);
-}
-function showToast(msg) {
-  const t=document.getElementById("toast"); t.textContent=msg; t.style.opacity="1";
-  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity="0",3000);
-}
-
-/* ── EDIT ── */
-function toggleEdit() {
-  editMode=true;
-  document.getElementById("editBtn").style.display="none";
-  ["addBtn","saveBtn","cancelBtn"].forEach(id=>document.getElementById(id).style.display="inline-block");
-  buildRows();
-}
-function cancelEdit() {
-  editMode=false;
-  document.getElementById("editBtn").style.display="inline-block";
-  ["addBtn","saveBtn","cancelBtn"].forEach(id=>document.getElementById(id).style.display="none");
-  buildRows();
-}
-function saveAll() {
-  rows=[];
-  document.querySelectorAll("#tbody tr").forEach((tr,i)=>{
-    const inp=tr.querySelectorAll("input");
-    if(inp.length>=4) rows.push([i+1,inp[0].value.trim(),inp[1].value.trim(),inp[2].value.trim(),inp[3].value.trim()]);
-  });
-  pushToSheet();
-  cancelEdit();
-}
-function deleteRow(idx) {
-  if(confirm("মুছে ফেলবেন?\n"+rows[idx][1])){
-    rows.splice(idx,1);
-    pushToSheet();
-    buildRows();
-  }
-}
-function addRow() {
-  const ex=document.getElementById("addForm"); if(ex){ex.remove();return;}
-  const div=document.createElement("div"); div.id="addForm";
-  div.style.cssText="background:#E8F5E9;padding:8px 14px;border-bottom:2px solid #107C10;display:flex;gap:6px;align-items:center;flex-wrap:wrap;";
-  div.innerHTML=`
-    <input id="nCo" type="text" placeholder="Company Name" style="width:145px;padding:5px 8px;border:2px solid #107C10;border-radius:5px;font-size:12px;outline:none">
-    <input id="nUser" type="text" placeholder="USER" style="width:80px;padding:5px 8px;border:2px solid #107C10;border-radius:5px;font-size:12px;outline:none">
-    <input id="nPw" type="text" placeholder="Password" style="width:115px;padding:5px 8px;border:2px solid #107C10;border-radius:5px;font-size:12px;outline:none">
-    <input id="nNote" type="text" placeholder="Note" style="width:115px;padding:5px 8px;border:2px solid #107C10;border-radius:5px;font-size:12px;outline:none">
-    <button onclick="confirmAdd()" style="padding:5px 13px;background:#107C10;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:bold">✔ যোগ</button>
-    <button onclick="document.getElementById('addForm').remove()" style="padding:5px 10px;background:#c00;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:bold">✕</button>`;
-  document.getElementById("tableWrap").prepend(div);
-  document.getElementById("nCo").focus();
-}
-function confirmAdd() {
-  const co=document.getElementById("nCo").value.trim();
-  const user=document.getElementById("nUser").value.trim();
-  const pw=document.getElementById("nPw").value.trim();
-  const note=document.getElementById("nNote").value.trim();
-  if(!co||!user||!pw){alert("কোম্পানি, USER ও Password আবশ্যক!"); return;}
-  rows.push([rows.length+1,co.toUpperCase(),user,pw,note]);
-  document.getElementById("addForm").remove();
-  pushToSheet();
-  buildRows();
-  document.getElementById("tableWrap").scrollTop=99999;
-  showToast("✅ যোগ হয়েছে: "+co.toUpperCase());
-}
-
-/* ── SETTINGS ── */
-function toggleSettings() { document.getElementById("settingsPanel").classList.toggle("open"); if(document.getElementById("importPanel").classList.contains("open")) document.getElementById("importPanel").classList.remove("open"); }
-function toggleImport() { document.getElementById("importPanel").classList.toggle("open"); if(document.getElementById("settingsPanel").classList.contains("open")) document.getElementById("settingsPanel").classList.remove("open"); }
-function step(k,d) {
-  const mn={rowH:16,fontSize:10},mx={rowH:70,fontSize:22};
-  sv[k]=Math.min(mx[k],Math.max(mn[k],sv[k]+d));
-  document.getElementById(k+"-val").textContent=sv[k]+"px"; applyStyles();
-}
-function applyStyles() {
-  const hc=document.getElementById("headerColor").value;
-  const ec=document.getElementById("evenColor").value;
-  const oc=document.getElementById("oddColor").value;
-  document.getElementById("dynStyle").textContent=`
-    #tbody td { height:${sv.rowH}px; font-size:${sv.fontSize}px; }
-    #tbody tr.even-row { background:${ec} !important; }
-    #tbody tr.odd-row  { background:${oc} !important; }
-    #tbody tr:hover    { background:#BDD7EE !important; }
-    #thead tr          { background:${hc} !important; }`;
-}
-
-/* ── CSV ── */
-function handleDrop(e) { e.preventDefault(); handleCSV(e.dataTransfer.files[0]); }
-function handleCSV(file) {
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const lines=e.target.result.split(/
-?
-/).filter(l=>l.trim());
-    const newRows=[]; let start=isNaN(lines[0].split(",")[0].trim()) ? 1 : 0;
-    for(let i=start;i<lines.length;i++){
-      const cols=parseCSVLine(lines[i]);
-      if(cols.length>=3) newRows.push([newRows.length+1,(cols[1]||"").trim(),(cols[2]||"").trim(),(cols[3]||"").trim(),(cols[4]||"").trim()]);
-    }
-    if(!newRows.length){showToast("❌ কোনো data পাওয়া যায়নি!"); return;}
-    if(confirm(`${newRows.length} টি import করবেন?`)){ rows=newRows; pushToSheet(); buildRows(); toggleImport(); showToast("✅ "+rows.length+" টি import সফল!"); }
-  };
-  reader.readAsText(file,"UTF-8");
-}
-function parseCSVLine(line) {
-  const result=[]; let cur=""; let inQ=false;
-  for(let i=0;i<line.length;i++){ const c=line[i]; if(c==='"'){inQ=!inQ;} else if(c===","&&!inQ){result.push(cur);cur="";} else{cur+=c;} } result.push(cur); return result;
-}
-function exportCSV() {
-  let csv="SL,COMPANY NAME,USER,PASSWORD,NOTE\n";
-  rows.forEach(r=>{ const esc=s=>'"'+String(s||"").replace(/"/g,'""')+'"'; csv+=`${r[0]},${esc(r[1])},${esc(r[2])},${esc(r[3])},${esc(r[4])}\n`; });
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download="TOS_KHOR_"+new Date().toISOString().slice(0,10)+".csv"; a.click();
-  showToast("✅ CSV export সফল!");
-}
-
-applyStyles();
-buildRows();
-syncFromSheet(); // Auto sync on load
-</script>
+        async function saveData() {
+            const rows = [];
+            document.querySelectorAll('#tableBody tr').forEach((tr, i) => {
+                rows.push({
+                    company: document.getElementById('comp_'+i).value,
+                    user: document.getElementById('user_'+i).value,
+                    password: document.getElementById('pass_'+i).value,
+                    note: document.getElementById('note_'+i).value
+                });
+            });
+            await fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify({action: 'save', rows})
+            });
+            alert('Saved Successfully!');
+        }
+    </script>
 </body>
 </html>
