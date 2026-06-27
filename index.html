@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOS KHOR - Credential Manager</title>
-    <!-- Tailwind CSS ব্যবহার করা হয়েছে প্রফেশনাল লুকের জন্য -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>TOS KHOR</title>
 </head>
 <body class="bg-gray-50 p-6">
     <div class="max-w-6xl mx-auto">
-        <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-blue-900">TOS KHOR</h1>
             <div class="space-x-2">
@@ -18,75 +15,64 @@
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="flex justify-between mb-4">
+        <div class="flex gap-4 mb-4">
             <input type="text" id="searchInput" placeholder="Search by company name, username, or notes..." 
-                   class="border p-2 w-1/2 rounded shadow-sm">
-            <button onclick="addRow()" class="bg-blue-600 text-white px-4 py-2 rounded shadow">+ Add New</button>
+                   class="border p-2 w-full rounded shadow-sm" onkeyup="filterTable()">
+            <button onclick="addRow()" class="bg-blue-600 text-white px-6 py-2 rounded shadow">+ Add New</button>
         </div>
 
-        <!-- Table -->
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <table class="w-full text-left">
                 <thead class="bg-gray-100 border-b">
-                    <tr>
-                        <th class="p-4">Company Name</th>
-                        <th class="p-4">Username</th>
-                        <th class="p-4">Password</th>
-                        <th class="p-4">Notes</th>
-                        <th class="p-4">Actions</th>
-                    </tr>
+                    <tr><th class="p-4">Company Name</th><th class="p-4">Username</th><th class="p-4">Password</th><th class="p-4">Notes</th><th class="p-4">Actions</th></tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
-        <button onclick="saveData()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded font-bold">Save All Changes</button>
+        <div class="fixed bottom-0 left-0 w-full p-4 bg-white border-t shadow-lg flex justify-center">
+            <button onclick="saveData()" class="bg-green-600 text-white px-10 py-3 rounded font-bold text-lg">Save All Changes</button>
+        </div>
     </div>
 
     <script>
-        // এখানে আপনার নতুন Deployment URL টি বসান:
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxFICdSyxdMrSd8wZGMnA9aQA29fR5EFRYaW8kNd3ET4p4LjgDCE5n3e8AoMQSBZ7nG/exec";
+        const WEB_APP_URL = "YOUR_NEW_DEPLOYMENT_URL_HERE";
 
         async function loadData() {
             const res = await fetch(WEB_APP_URL);
             const data = await res.json();
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = data.rows.map(r => `
-                <tr class="border-b">
-                    <td class="p-4"><input value="${r.company}" class="c w-full p-1 border"></td>
-                    <td class="p-4"><input value="${r.user}" class="u w-full p-1 border"></td>
-                    <td class="p-4"><input value="${r.password}" class="p w-full p-1 border"></td>
-                    <td class="p-4"><input value="${r.note}" class="n w-full p-1 border"></td>
-                    <td class="p-4">
-                        <button onclick="this.parentElement.parentElement.remove()" class="text-red-600 font-bold">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
+            document.getElementById('tableBody').innerHTML = data.rows.map(r => createRowHTML(r)).join('');
+        }
+
+        function createRowHTML(r) {
+            return `<tr class="border-b">
+                <td class="p-4"><input value="${r.company}" class="c w-full p-1 border"></td>
+                <td class="p-4"><input value="${r.user}" class="u w-full p-1 border"></td>
+                <td class="p-4"><input value="${r.password}" class="p w-full p-1 border"></td>
+                <td class="p-4"><input value="${r.note}" class="n w-full p-1 border"></td>
+                <td class="p-4"><button onclick="this.closest('tr').remove()" class="text-red-600 font-bold">Delete</button></td>
+            </tr>`;
         }
 
         function addRow() {
-            document.getElementById('tableBody').insertAdjacentHTML('beforeend', `
-                <tr class="border-b">
-                    <td class="p-4"><input class="c w-full p-1 border" placeholder="Company"></td>
-                    <td class="p-4"><input class="u w-full p-1 border" placeholder="User"></td>
-                    <td class="p-4"><input class="p w-full p-1 border" placeholder="Pass"></td>
-                    <td class="p-4"><input class="n w-full p-1 border" placeholder="Note"></td>
-                    <td class="p-4"><button onclick="this.parentElement.parentElement.remove()" class="text-red-600 font-bold">Delete</button></td>
-                </tr>
-            `);
+            const tbody = document.getElementById('tableBody');
+            tbody.insertAdjacentHTML('afterbegin', createRowHTML({company:'', user:'', password:'', note:''}));
+        }
+
+        function filterTable() {
+            const val = document.getElementById("searchInput").value.toLowerCase();
+            document.querySelectorAll("#tableBody tr").forEach(tr => {
+                tr.style.display = tr.innerText.toLowerCase().includes(val) ? "" : "none";
+            });
         }
 
         async function saveData() {
             const rows = Array.from(document.querySelectorAll('#tableBody tr')).map(tr => ({
-                company: tr.querySelector('.c').value,
-                user: tr.querySelector('.u').value,
-                password: tr.querySelector('.p').value,
-                note: tr.querySelector('.n').value
+                company: tr.querySelector('.c').value, user: tr.querySelector('.u').value,
+                password: tr.querySelector('.p').value, note: tr.querySelector('.n').value
             }));
             await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({action: 'save', rows}) });
             alert('Saved Successfully!');
         }
-
         loadData();
     </script>
 </body>
