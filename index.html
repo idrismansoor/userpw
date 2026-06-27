@@ -1,62 +1,50 @@
-<!-- Main Header Block -->
-<div class="flex justify-between items-center p-6 bg-white border-b border-gray-100">
-    
-    <!-- Left Section: Title and Subtitle -->
-    <div>
-        <h1 class="text-3xl font-bold text-blue-900 leading-tight">
-            TOS USER PW (72)
-        </h1>
-        <p class="text-sm font-semibold text-teal-600">
-            Create By-Mansoor
-        </p>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TOS KHOR</title>
+</head>
+<body class="bg-gray-50 p-6">
+    <!-- আপনার হেডার কোড এখানে থাকবে -->
+    <!-- (আগের দেওয়া হেডার কোডটি এখানে বসান) -->
 
-    <!-- Right Section: Navigation Buttons and Logout -->
-    <div class="flex items-center gap-2">
-        
-        <!-- Navigation Buttons Array -->
-        <div class="flex items-center gap-2 border border-blue-100 rounded-full p-1 bg-blue-50">
-            <!-- TOS Login -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">🌐</span>
-                TOS Login
-            </button>
-            
-            <!-- Container Tracking -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">📦</span>
-                Container Tracking
-            </button>
-            
-            <!-- E-Token Login -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">🔑</span>
-                E-Token Login
-            </button>
-            
-            <!-- Registration -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">📝</span>
-                Registration
-            </button>
-            
-            <!-- User Profile -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">👤</span>
-                User Profile
-            </button>
-            
-            <!-- TOS Reports -->
-            <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
-                <span class="text-lg">📊</span>
-                TOS Reports
-            </button>
+    <!-- টেবিল সেকশন -->
+    <div class="max-w-6xl mx-auto mt-10">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-gray-100 border-b">
+                    <tr><th class="p-4">Company Name</th><th class="p-4">Username</th><th class="p-4">Password</th><th class="p-4">Notes</th><th class="p-4">Actions</th></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </div>
-
-        <!-- Logout Button (Separate on far right) -->
-        <button class="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
-            <span class="text-lg">🚪</span>
-            Logout
-        </button>
     </div>
-</div>
+
+    <script>
+        const WEB_APP_URL = "আপনার_নতুন_লিঙ্কটি_এখানে_দিন";
+
+        async function loadData() {
+            try {
+                const res = await fetch(WEB_APP_URL);
+                const data = await res.json();
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = data.rows.map(r => `
+                    <tr class="border-b">
+                        <td class="p-4"><input value="${r.company}" class="c w-full p-1 border"></td>
+                        <td class="p-4"><input value="${r.user}" class="u w-full p-1 border"></td>
+                        <td class="p-4"><input value="${r.password}" class="p w-full p-1 border"></td>
+                        <td class="p-4"><input value="${r.note}" class="n w-full p-1 border"></td>
+                        <td class="p-4"><button onclick="this.closest('tr').remove()" class="text-red-600 font-bold">Delete</button></td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error("ডাটা লোড হয়নি:", e);
+            }
+        }
+
+        // পেজ লোড হলেই ডাটা লোড হবে
+        window.onload = loadData;
+    </script>
+</body>
+</html>
