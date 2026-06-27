@@ -397,6 +397,7 @@ function saveAll() {
     const inp=tr.querySelectorAll("input");
     if(inp.length>=4) rows.push([i+1,inp[0].value.trim(),inp[1].value.trim(),inp[2].value.trim(),inp[3].value.trim()]);
   });
+  saveData();
   cancelEdit();
   showToast("✅ "+rows.length+" টি সেভ হয়েছে!");
 }
@@ -492,6 +493,7 @@ function handleCSV(file) {
     if(!newRows.length){showToast("❌ কোনো valid data পাওয়া যায়নি!"); return;}
     if(confirm(`${newRows.length} টি row import করবেন?\nবিদ্যমান ${rows.length} টি row replace হবে।`)){
       rows=newRows;
+      saveData();
       buildRows();
       toggleImport();
       showToast("✅ "+rows.length+" টি import সফল!");
@@ -526,7 +528,21 @@ function exportCSV() {
   showToast("✅ CSV export সফল!");
 }
 
+// Load saved data from localStorage
+function loadData() {
+  const saved = localStorage.getItem('tos_khor_rows');
+  if (saved) {
+    try { rows = JSON.parse(saved); } catch(e) {}
+  }
+}
+
+// Save data to localStorage
+function saveData() {
+  localStorage.setItem('tos_khor_rows', JSON.stringify(rows));
+}
+
 applyStyles();
+loadData();
 buildRows();
 </script>
 </body>
