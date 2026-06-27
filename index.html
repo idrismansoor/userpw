@@ -6,6 +6,7 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         .controls { position: sticky; top: 0; background: white; padding: 10px; border-bottom: 1px solid #ccc; z-index: 1000; }
+        #searchInput { padding: 10px; width: 300px; margin-right: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid #ccc; padding: 8px; }
         input { width: 90%; }
@@ -14,11 +15,12 @@
 </head>
 <body>
     <div class="controls">
+        <input type="text" id="searchInput" placeholder="সার্চ করুন (কোম্পানি বা ইউজার)..." onkeyup="filterTable()">
         <button onclick="loadData()">Sync Data</button>
         <button onclick="addRow()">+ Add New Company</button>
         <button onclick="saveData()">Save All Changes</button>
     </div>
-    <table>
+    <table id="dataTable">
         <thead><tr><th>SL</th><th>Company</th><th>User</th><th>Password</th><th>Note</th></tr></thead>
         <tbody id="tableBody"></tbody>
     </table>
@@ -47,6 +49,15 @@
             tbody.insertAdjacentHTML('beforeend', createRow(undefined, index));
         }
 
+        function filterTable() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll("#tableBody tr");
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+
         async function saveData() {
             const rows = [];
             document.querySelectorAll('#tableBody tr').forEach(tr => {
@@ -61,7 +72,7 @@
             alert('Saved Successfully!');
         }
         
-        loadData(); // Page load holei data load hobe
+        loadData();
     </script>
 </body>
 </html>
