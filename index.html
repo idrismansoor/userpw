@@ -48,6 +48,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 .header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
 .header-top h1{font-size:1.2rem;color:#e94560;font-weight:bold;}
 .byline{font-size:0.75rem;color:#aaa;}
+.header-note{font-size:0.78rem;color:#f39c12;padding:4px 0 6px 0;border-top:1px dashed #2a2a4a;margin-top:6px;}
 .header-right{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 .icon-btn{background:#0f3460;border:1px solid #2a2a4a;color:#eee;border-radius:7px;padding:6px 11px;cursor:pointer;font-size:0.82rem;transition:.2s;white-space:nowrap;}
 .icon-btn:hover{border-color:#e94560;color:#e94560;}
@@ -175,9 +176,10 @@ tbody td{padding:9px;vertical-align:middle;}
       <div class="header-top">
         <div>
           <h1>🗂️ USER PW LIST V.1</h1>
-          <div class="byline">Created by <b>Idris Mansoor</b> &nbsp;|&nbsp; Google Sheets সংযুক্ত</div>
+          <div class="byline">Created by <b style="color:#2ecc71;">Idris Mansoor</b></div>
         </div>
-        <div class="header-right">
+        <div class="header-note">📝 <i>নোট: যেকোনো password এ্যাড করুন এবং Save করুন — Google Sheet এ যোগ হবে।</i></div>
+      <div class="header-right">
           <button class="icon-btn" onclick="document.getElementById('creds-modal').style.display='flex'">🔑 Login পরিবর্তন</button>
           <button class="icon-btn" onclick="doLogout()">🚪 Logout</button>
           <button class="icon-btn" onclick="document.getElementById('import-modal').style.display='flex'">📥 Import</button>
