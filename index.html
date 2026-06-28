@@ -81,10 +81,11 @@ button:hover{filter:brightness(.88);}
 .search-bar input:focus{outline:none;border-color:#e94560;}
 
 /* ── TABLE ── */
+#thead-wrap{background:#0f3460;border-bottom:2px solid #e94560;overflow:hidden;}
+#thead-wrap table{width:100%;border-collapse:collapse;font-size:0.95rem;table-layout:fixed;}
+#thead-wrap th{padding:10px;text-align:left;color:#e94560;font-size:1rem;white-space:nowrap;}
 .table-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:0.95rem;}
-thead{position:sticky;top:0;z-index:4;background:#0f3460;}
-thead th{padding:10px;text-align:left;color:#e94560;border-bottom:2px solid #e94560;font-size:1rem;white-space:nowrap;}
+#main-table{width:100%;border-collapse:collapse;font-size:0.95rem;table-layout:fixed;}
 tbody tr{border-bottom:1px solid #2a2a4a;transition:background .15s;}
 tbody tr:hover{background:#1e1e3a;}
 tbody td{padding:9px;vertical-align:middle;}
@@ -210,14 +211,24 @@ tbody td{padding:9px;vertical-align:middle;}
     </div>
   </div><!-- end sticky-top -->
 
-  <div class="table-wrap">
-    <table>
+  <!-- FIXED HEADER TABLE -->
+  <div id="thead-wrap">
+    <table id="thead-table">
       <thead>
         <tr>
-          <th>#</th><th>কোম্পানি</th><th>User Name</th>
-          <th>Password</th><th>Note</th><th>মুছুন</th>
+          <th style="width:40px">#</th>
+          <th>কোম্পানি</th>
+          <th>User Name</th>
+          <th>Password</th>
+          <th>Note</th>
+          <th style="width:70px">মুছুন</th>
         </tr>
       </thead>
+    </table>
+  </div>
+  <!-- SCROLLABLE BODY -->
+  <div class="table-wrap">
+    <table id="main-table">
       <tbody id="tbody"></tbody>
     </table>
     <div id="empty-msg" class="empty-msg" style="display:none">কোনো entry নেই।</div>
@@ -302,14 +313,6 @@ window.addEventListener('popstate',function(){
   if(document.activeElement&&document.activeElement!==document.body) document.activeElement.blur();
 });
 
-function fixStickyHeader(){
-  const stickyH = document.getElementById("sticky-top").offsetHeight;
-  document.querySelector("thead").style.top = stickyH + "px";
-}
-window.addEventListener("resize", fixStickyHeader);
-// Also run after content loads
-setTimeout(fixStickyHeader, 500);
-
 async function loadFromSheets(){
   setStatus("⏳ Google Sheets থেকে load হচ্ছে...","loading");
   try{
@@ -326,7 +329,6 @@ async function loadFromSheets(){
     else{rows=[];setStatus("⚠️ Sheets সংযোগ ব্যর্থ","err");}
   }
   renderTable();
-  fixStickyHeader();
 }
 
 async function saveToSheets(){
@@ -410,7 +412,7 @@ function renderTable(){
     const i=r._i;
     const tr=document.createElement("tr");
     tr.innerHTML=`
-      <td style="color:#aaa;font-size:0.95rem;width:30px">${fi+1}</td>
+      <td style="color:#aaa;font-size:0.95rem;width:40px">${fi+1}</td>
       <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:90px"/>
@@ -421,7 +423,7 @@ function renderTable(){
         <button class="small-btn" onclick="copyText('${esc(r.password)}')">📋</button>
       </div></td>
       <td><input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off"/></td>
-      <td><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
+      <td style="width:70px"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
     tbody.appendChild(tr);
   });
 }
