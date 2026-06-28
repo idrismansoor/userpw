@@ -6,184 +6,127 @@
 <title>USER PW LIST V.1</title>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PW LIST">
 <meta name="theme-color" content="#1a1a2e">
 <style>
-:root {
-  --bg:#1a1a2e;--bg2:#16213e;--bg3:#0f3460;
-  --accent:#e94560;--accent2:#c73652;
-  --text:#eeeeee;--text2:#aaaaaa;
-  --border:#2a2a4a;--green:#27ae60;--blue:#2980b9;
-}
-.light{
-  --bg:#f0f2f5;--bg2:#ffffff;--bg3:#e8eaf0;
-  --accent:#c0392b;--accent2:#a93226;
-  --text:#1a1a2e;--text2:#555;
-  --border:#d0d0e0;--green:#27ae60;--blue:#2980b9;
-}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;font-size:15px;}
+body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;min-height:100vh;font-size:15px;}
 
-/* LOCK */
-#lock-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;}
-.lock-box{background:var(--bg2);border:2px solid var(--accent);border-radius:16px;padding:36px 28px;text-align:center;max-width:360px;width:90%;}
-.lock-box h2{color:var(--accent);font-size:1.4rem;margin-bottom:4px;}
-.lock-box .sub{color:var(--text2);font-size:0.78rem;margin-bottom:18px;}
-.lock-box input{width:100%;padding:11px 14px;border-radius:8px;border:2px solid var(--border);background:var(--bg3);color:var(--text);font-size:1rem;margin-bottom:10px;text-align:center;letter-spacing:.1em;}
-.lock-box input:focus{outline:none;border-color:var(--accent);}
-.lock-box button{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:6px;}
-.lock-box button:hover{background:var(--accent2);}
-#lock-error{color:var(--accent);font-size:0.83rem;min-height:18px;margin-top:4px;}
-.lock-icon{font-size:2.8rem;margin-bottom:8px;}
-.text-link{color:var(--text2);font-size:0.78rem;cursor:pointer;text-decoration:underline;margin-top:10px;display:inline-block;}
+/* ── STICKY TOP WRAPPER ── */
+#sticky-top{position:sticky;top:0;z-index:100;}
 
-/* QUICKLINKS */
-#quicklinks{background:#0a0a1a;padding:7px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
-.light #quicklinks{background:#e0e4ef;}
-#quicklinks a{color:#7ec8e3;font-size:0.78rem;text-decoration:none;padding:3px 10px;border:1px solid #2a3a5a;border-radius:12px;white-space:nowrap;transition:.2s;}
-.light #quicklinks a{color:#1a5276;border-color:#b0c4de;}
-#quicklinks a:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
-#quicklinks span{color:var(--text2);font-size:0.75rem;margin-right:4px;}
+/* ── HEADER ── */
+header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px solid #e94560;padding:10px 16px;}
+.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.header-top h1{font-size:1.2rem;color:#e94560;font-weight:bold;}
+.header-top .byline{font-size:0.75rem;color:#aaa;}
+.header-right{display:flex;gap:6px;align-items:center;}
+.icon-btn{background:#0f3460;border:1px solid #2a2a4a;color:#eee;border-radius:7px;padding:6px 11px;cursor:pointer;font-size:0.82rem;transition:.2s;white-space:nowrap;}
+.icon-btn:hover{border-color:#e94560;color:#e94560;}
 
-/* HEADER */
-header{background:linear-gradient(135deg,var(--bg2),var(--bg3));padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--accent);flex-wrap:wrap;gap:8px;position:sticky;top:37px;z-index:99;}
-.header-left h1{font-size:1.25rem;color:var(--accent);font-weight:bold;}
-.header-left .byline{font-size:0.75rem;color:var(--text2);}
-.header-right{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.icon-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:7px 11px;cursor:pointer;font-size:0.8rem;transition:.2s;}
-.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
+/* ── QUICK LINKS IN HEADER ── */
+#quicklinks{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:4px 0 2px 0;}
+#quicklinks span{color:#aaa;font-size:0.75rem;margin-right:2px;}
+#quicklinks a{color:#7ec8e3;font-size:0.8rem;text-decoration:none;padding:3px 10px;border:1px solid #2a3a5a;border-radius:12px;white-space:nowrap;transition:.2s;}
+#quicklinks a:hover{background:#e94560;color:#fff;border-color:#e94560;}
 
-/* TOOLBAR */
-.toolbar{background:var(--bg2);padding:10px 14px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:101px;z-index:98;}
-.toolbar input{flex:1;min-width:130px;padding:9px 11px;border:1px solid var(--border);border-radius:7px;background:var(--bg3);color:var(--text);font-size:0.95rem;}
-.toolbar input::placeholder{color:var(--text2);}
-.toolbar input:focus{outline:none;border-color:var(--accent);}
+/* ── TOOLBAR ── */
+.toolbar{background:#16213e;padding:10px 14px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #2a2a4a;}
+.toolbar input{flex:1;min-width:130px;padding:9px 11px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.95rem;}
+.toolbar input::placeholder{color:#888;}
+.toolbar input:focus{outline:none;border-color:#e94560;}
 button{cursor:pointer;border:none;border-radius:7px;font-weight:bold;transition:.2s;}
-.btn-add{background:var(--accent);color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-add:hover{background:var(--accent2);}
-.btn-save{background:var(--green);color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-reload{background:var(--blue);color:#fff;padding:9px 14px;font-size:0.95rem;}
+.btn-add{background:#e94560;color:#fff;padding:9px 14px;font-size:0.95rem;}
+.btn-save{background:#27ae60;color:#fff;padding:9px 14px;font-size:0.95rem;}
+.btn-reload{background:#2980b9;color:#fff;padding:9px 14px;font-size:0.95rem;}
 .btn-export{background:#8e44ad;color:#fff;padding:9px 14px;font-size:0.95rem;}
 .btn-import{background:#d35400;color:#fff;padding:9px 14px;font-size:0.95rem;}
 button:hover{filter:brightness(.88);}
 
-/* STATUS */
-#status{padding:7px 14px;font-size:0.9rem;min-height:30px;background:var(--bg);color:var(--text2);border-bottom:1px solid var(--border);position:sticky;top:161px;z-index:97;}
+/* ── STATUS ── */
+#status{padding:7px 14px;font-size:0.9rem;min-height:30px;background:#1a1a2e;color:#aaa;border-bottom:1px solid #2a2a4a;}
 #status.ok{color:#2ecc71;}#status.err{color:#e74c3c;}#status.loading{color:#f39c12;}
 
-/* SEARCH */
-.search-bar{padding:9px 14px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:193px;z-index:96;}
-.search-bar input{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:7px;background:var(--bg3);color:var(--text);font-size:0.88rem;}
-.search-bar input:focus{outline:none;border-color:var(--accent);}
+/* ── SEARCH ── */
+.search-bar{padding:9px 14px;background:#16213e;border-bottom:1px solid #2a2a4a;display:flex;gap:8px;align-items:center;}
+.search-bar input{flex:1;padding:9px 13px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.95rem;}
+.search-bar input:focus{outline:none;border-color:#e94560;}
 
-/* TABLE */
+/* ── TABLE ── */
 .table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:0.95rem;}
-thead{background:var(--bg3);position:sticky;top:243px;z-index:5;}
-thead th{padding:10px 10px;text-align:left;color:var(--accent);border-bottom:2px solid var(--accent);white-space:nowrap;font-size:1rem;}
-tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
-tbody tr:hover{background:var(--bg3);}
+thead th{padding:10px;text-align:left;color:#e94560;border-bottom:2px solid #e94560;font-size:1rem;background:#0f3460;white-space:nowrap;}
+tbody tr{border-bottom:1px solid #2a2a4a;transition:background .15s;}
+tbody tr:hover{background:#1e1e3a;}
 tbody td{padding:9px 9px;vertical-align:middle;}
-.editable{background:transparent;border:none;color:var(--text);font-size:0.95rem;width:100%;font-family:Arial,sans-serif;padding:3px 5px;border-radius:4px;}
-.editable:focus{outline:1px solid var(--accent);background:var(--bg3);}
+.editable{background:transparent;border:none;color:#eee;font-size:0.95rem;width:100%;font-family:Arial,sans-serif;padding:3px 5px;border-radius:4px;}
+.editable:focus{outline:1px solid #e94560;background:#0f3460;}
 .pw-wrap{display:flex;align-items:center;gap:3px;}
-.pw-text{font-family:monospace;}
-.small-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:3px 7px;font-size:0.73rem;border-radius:4px;}
-.small-btn:hover{border-color:var(--accent);color:var(--accent);}
-.btn-del{background:none;border:1px solid var(--accent);color:var(--accent);padding:4px 9px;font-size:0.78rem;border-radius:5px;}
-.btn-del:hover{background:var(--accent);color:#fff;}
-.empty-msg{text-align:center;padding:50px;color:var(--text2);}
+.small-btn{background:none;border:1px solid #2a2a4a;color:#aaa;padding:3px 7px;font-size:0.78rem;border-radius:4px;}
+.small-btn:hover{border-color:#e94560;color:#e94560;}
+.btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:5px 10px;font-size:0.82rem;border-radius:5px;}
+.btn-del:hover{background:#e94560;color:#fff;}
+.empty-msg{text-align:center;padding:50px;color:#555;}
 
-/* MODAL */
+/* ── MODAL ── */
 .modal-bg{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:8888;}
-.modal{background:var(--bg2);border:2px solid var(--accent);border-radius:14px;padding:28px;max-width:340px;width:90%;text-align:center;}
-.modal h3{color:var(--accent);margin-bottom:16px;}
-.modal input{width:100%;padding:10px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:0.9rem;margin-bottom:10px;}
-.modal input:focus{outline:none;border-color:var(--accent);}
+.modal{background:#16213e;border:2px solid #e94560;border-radius:14px;padding:28px;max-width:340px;width:90%;text-align:center;}
+.modal h3{color:#e94560;margin-bottom:16px;}
+.modal input{width:100%;padding:10px 12px;border-radius:7px;border:1px solid #2a2a4a;background:#0f3460;color:#eee;font-size:0.9rem;margin-bottom:10px;}
+.modal input:focus{outline:none;border-color:#e94560;}
 .modal-btns{display:flex;gap:8px;margin-top:8px;}
 .modal-btns button{flex:1;padding:9px;}
-.btn-ok{background:var(--green);color:#fff;}
+.btn-ok{background:#27ae60;color:#fff;}
 .btn-cancel{background:#555;color:#fff;}
 
-/* TOAST */
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:9px 20px;border-radius:20px;font-size:0.83rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;}
+/* ── TOAST ── */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:9px 20px;border-radius:20px;font-size:0.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;}
 #toast.show{opacity:1;}
 
-/* MOBILE */
+/* ── MOBILE ── */
 @media(max-width:600px){
   .toolbar input{min-width:100%;}
   .btn-add,.btn-save,.btn-reload,.btn-export,.btn-import{width:100%;padding:11px;}
-  #quicklinks{gap:5px;}
-  #quicklinks a{font-size:0.72rem;}
+  #quicklinks a{font-size:0.74rem;}
 }
 </style>
 </head>
 <body>
 
-<!-- LOCK -->
-<div id="lock-screen">
-  <div class="lock-box">
-    <div class="lock-icon">🔐</div>
-    <h2>USER PW LIST V.1</h2>
-    <div class="sub">Created by Idris Mansoor</div>
-    <p id="lock-label" style="color:var(--text2);font-size:.85rem;margin-bottom:14px;">Master Password দিয়ে প্রবেশ করুন</p>
-    <input type="password" id="pw-input" placeholder="Password লিখুন..." autocomplete="new-password" onkeydown="if(event.key==='Enter')unlock()" />
-    <div id="lock-error"></div>
-    <button onclick="unlock()">🔓 প্রবেশ করুন</button>
-    <div class="text-link" onclick="showSetup()" id="setup-link">প্রথমবার? নতুন Password সেট করুন</div>
-  </div>
-</div>
-
-<!-- CHANGE PW MODAL -->
-<div class="modal-bg" id="change-pw-modal" style="display:none">
-  <div class="modal">
-    <h3>🔑 Master Password পরিবর্তন</h3>
-    <input type="password" id="old-pw" placeholder="বর্তমান Password" />
-    <input type="password" id="new-pw" placeholder="নতুন Password (কমপক্ষে ৪ অক্ষর)" />
-    <input type="password" id="confirm-pw" placeholder="নতুন Password আবার লিখুন" />
-    <div id="change-pw-err" style="color:var(--accent);font-size:.82rem;min-height:18px;"></div>
-    <div class="modal-btns">
-      <button class="btn-ok" onclick="doChangePw()">✅ পরিবর্তন করুন</button>
-      <button class="btn-cancel" onclick="closeModal('change-pw-modal')">❌ বাতিল</button>
-    </div>
-  </div>
-</div>
-
 <!-- IMPORT MODAL -->
 <div class="modal-bg" id="import-modal" style="display:none">
   <div class="modal">
     <h3>📥 CSV Import</h3>
-    <p style="color:var(--text2);font-size:.82rem;margin-bottom:12px;">CSV ফরম্যাট: <b>#, Company, Username, Password, Note</b><br>প্রথম row header হলে skip হবে।</p>
-    <input type="file" id="csv-file" accept=".csv" style="color:var(--text);margin-bottom:10px;" />
-    <div id="import-err" style="color:var(--accent);font-size:.82rem;min-height:18px;"></div>
+    <p style="color:#aaa;font-size:.82rem;margin-bottom:12px;">ফরম্যাট: <b>#, Company, Username, Password, Note</b><br>Header row থাকলে skip হবে।</p>
+    <input type="file" id="csv-file" accept=".csv" style="color:#eee;margin-bottom:10px;" />
+    <div id="import-err" style="color:#e94560;font-size:.82rem;min-height:18px;"></div>
     <div class="modal-btns">
-      <button class="btn-ok" onclick="doImportCSV()">📥 Import করুন</button>
+      <button class="btn-ok" onclick="doImportCSV()">📥 Import</button>
       <button class="btn-cancel" onclick="closeModal('import-modal')">❌ বাতিল</button>
     </div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app" style="display:none">
-  <!-- QUICK LINKS -->
-  <div id="quicklinks">
-    <span>🔗 Quick Links:</span>
-    <a href="https://www.gulftainer.com/container-tracking/" target="_blank">📦 Container Tracking</a>
-    <a href="https://tos.gulftainer.com/" target="_blank">🚢 TOS Gulftainer</a>
-    <a href="https://eservices.gulftainer.com/a/e-token-generator/login" target="_blank">🎫 E-Token</a>
-    <a href="https://customer-registration.gulftainer.com/home" target="_blank">📋 Customer Reg.</a>
-  </div>
-
+<div id="sticky-top">
   <header>
-    <div class="header-left">
-      <h1>🗂️ USER PW LIST V.1</h1>
-      <div class="byline">Created by <b>Idris Mansoor</b> &nbsp;|&nbsp; Google Sheets সংযুক্ত</div>
+    <div class="header-top">
+      <div>
+        <h1>🗂️ USER PW LIST V.1</h1>
+        <div class="byline">Created by <b>Idris Mansoor</b> &nbsp;|&nbsp; Google Sheets সংযুক্ত</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" onclick="document.getElementById('import-modal').style.display='flex'">📥 CSV Import</button>
+        <button class="icon-btn" onclick="exportCSV()">📤 CSV Export</button>
+      </div>
     </div>
-    <div class="header-right">
-      <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">🌙 Dark</button>
-      <button class="icon-btn" onclick="document.getElementById('change-pw-modal').style.display='flex'">🔑 PW Change</button>
-      <button class="icon-btn" onclick="lockApp()">🔒 Lock</button>
+    <!-- QUICK LINKS -->
+    <div id="quicklinks">
+      <span>🔗</span>
+      <a href="https://www.gulftainer.com/container-tracking/" target="_blank">📦 Container Tracking</a>
+      <a href="https://tos.gulftainer.com/" target="_blank">🚢 TOS Gulftainer</a>
+      <a href="https://eservices.gulftainer.com/a/e-token-generator/login" target="_blank">🎫 E-Token</a>
+      <a href="https://customer-registration.gulftainer.com/home" target="_blank">📋 Customer Reg.</a>
     </div>
   </header>
 
@@ -195,126 +138,42 @@ tbody td{padding:9px 9px;vertical-align:middle;}
     <button class="btn-add" onclick="addRow()">➕ যোগ করুন</button>
     <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
     <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
-    <button class="btn-export" onclick="exportCSV()">📤 CSV Export</button>
-    <button class="btn-import" onclick="document.getElementById('import-modal').style.display='flex'">📥 CSV Import</button>
   </div>
 
   <div id="status" class="loading">⏳ লোড হচ্ছে...</div>
 
-  <div class="search-bar" style="display:flex;gap:8px;align-items:center;">
-    <input type="text" id="search" placeholder="🔍 কোম্পানি বা username খুঁজুন..." oninput="renderTable()" autocomplete="off" style="flex:1;width:auto;" />
-    <button class="icon-btn" onclick="document.getElementById('search').value='';renderTable();" style="white-space:nowrap;padding:9px 14px;">✖ Clear</button>
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="🔍 কোম্পানি বা username খুঁজুন..." oninput="renderTable()" autocomplete="off" />
+    <button class="icon-btn" onclick="document.getElementById('search').value='';renderTable();" style="white-space:nowrap;">✖ Clear</button>
   </div>
+</div><!-- end sticky-top -->
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th><th>কোম্পানি</th><th>User Name</th>
-          <th>Password</th><th>Note</th><th>মুছুন</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div id="empty-msg" class="empty-msg" style="display:none">কোনো entry নেই।</div>
-  </div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>কোম্পানি</th><th>User Name</th>
+        <th>Password</th><th>Note</th><th>মুছুন</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div id="empty-msg" class="empty-msg" style="display:none">কোনো entry নেই।</div>
 </div>
 
 <div id="toast"></div>
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbxX9odOf2AKtPFVLylDTfCyjbbdPPekNyx-Baeo2o5-QcOgZo-X6kpTOBjCOHv7vxMl_Q/exec";
-const MASTER_KEY="tosMasterPw";
-let rows=[],showPw={},isDark=true;
+let rows=[];
 
-// ── LOCK ──
-// ── BACK BUTTON FIX (Mobile) ──
-history.pushState({page:1}, null, location.href);
-window.addEventListener('popstate', function(e) {
-  // Always push state back so app never closes
-  history.pushState({page:1}, null, location.href);
-  // Blur active input to close keyboard
-  if(document.activeElement && document.activeElement !== document.body){
-    document.activeElement.blur();
-    return;
-  }
-  // If lock screen visible, do nothing
-  const lockVisible = document.getElementById('lock-screen').style.display !== 'none';
-  if(lockVisible) return;
-  // Otherwise blur any focused element
-  document.body.focus();
+// Back button fix
+history.pushState({page:1},null,location.href);
+window.addEventListener('popstate',function(){
+  history.pushState({page:1},null,location.href);
+  if(document.activeElement&&document.activeElement!==document.body)document.activeElement.blur();
 });
 
-window.onload=function(){
-  const s=localStorage.getItem(MASTER_KEY);
-  document.getElementById("lock-label").textContent=s?"Master Password দিয়ে প্রবেশ করুন":"প্রথমবার: Master Password সেট করুন";
-  document.getElementById("setup-link").style.display=s?"block":"none";
-};
-
-function unlock(){
-  const inp=document.getElementById("pw-input").value;
-  const stored=localStorage.getItem(MASTER_KEY);
-  if(!stored){
-    if(inp.length<4){document.getElementById("lock-error").textContent="কমপক্ষে ৪ অক্ষর দিন!";return;}
-    localStorage.setItem(MASTER_KEY,btoa(inp));openApp();return;
-  }
-  if(btoa(inp)===stored){openApp();}
-  else{document.getElementById("lock-error").textContent="❌ ভুল password!";document.getElementById("pw-input").value="";}
-}
-
-function showSetup(){
-  localStorage.removeItem(MASTER_KEY);
-  document.getElementById("lock-label").textContent="নতুন Master Password সেট করুন";
-  document.getElementById("lock-error").textContent="";
-  document.getElementById("pw-input").value="";
-  document.getElementById("setup-link").style.display="none";
-}
-
-function openApp(){
-  document.getElementById("lock-screen").style.display="none";
-  document.getElementById("app").style.display="block";
-  loadFromSheets();
-}
-
-function lockApp(){
-  document.getElementById("app").style.display="none";
-  document.getElementById("lock-screen").style.display="flex";
-  document.getElementById("pw-input").value="";
-  document.getElementById("lock-error").textContent="";
-  const s=localStorage.getItem(MASTER_KEY);
-  document.getElementById("lock-label").textContent=s?"Master Password দিয়ে প্রবেশ করুন":"নতুন Password সেট করুন";
-  document.getElementById("setup-link").style.display=s?"block":"none";
-}
-
-// ── CHANGE PASSWORD ──
-function doChangePw(){
-  const oldPw=document.getElementById("old-pw").value;
-  const newPw=document.getElementById("new-pw").value;
-  const confirmPw=document.getElementById("confirm-pw").value;
-  const stored=localStorage.getItem(MASTER_KEY);
-  const errEl=document.getElementById("change-pw-err");
-  if(btoa(oldPw)!==stored){errEl.textContent="❌ বর্তমান password ভুল!";return;}
-  if(newPw.length<4){errEl.textContent="❌ নতুন password কমপক্ষে ৪ অক্ষর হতে হবে!";return;}
-  if(newPw!==confirmPw){errEl.textContent="❌ নতুন password দুটো মিলছে না!";return;}
-  localStorage.setItem(MASTER_KEY,btoa(newPw));
-  closeModal("change-pw-modal");
-  ["old-pw","new-pw","confirm-pw"].forEach(id=>document.getElementById(id).value="");
-  errEl.textContent="";
-  toast("✅ Password পরিবর্তন হয়েছে!");
-}
-
-function closeModal(id){
-  document.getElementById(id).style.display="none";
-}
-
-// ── THEME ──
-function toggleTheme(){
-  isDark=!isDark;
-  document.body.classList.toggle("light",!isDark);
-  document.getElementById("theme-btn").textContent=isDark?"🌙 Dark":"☀️ Light";
-}
-
-// ── LOAD ──
 async function loadFromSheets(){
   setStatus("⏳ Google Sheets থেকে load হচ্ছে...","loading");
   try{
@@ -333,9 +192,8 @@ async function loadFromSheets(){
   renderTable();
 }
 
-// ── SAVE ──
 async function saveToSheets(){
-  setStatus("⏳ Google Sheets এ save হচ্ছে...","loading");
+  setStatus("⏳ Save হচ্ছে...","loading");
   try{
     const res=await fetch(API_URL,{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain"},
       body:JSON.stringify({action:"save",rows:rows.map((r,i)=>[i+1,r.company,r.user,r.password,r.note])})});
@@ -350,7 +208,6 @@ async function saveToSheets(){
   }
 }
 
-// ── ADD ──
 function addRow(){
   const c=document.getElementById("inp-company").value.trim();
   const u=document.getElementById("inp-user").value.trim();
@@ -368,20 +225,18 @@ function deleteRow(i){
 }
 
 function editField(i,f,v){rows[i][f]=v;}
-function togglePw(i){showPw[i]=!showPw[i];renderTable();}
+
 function copyText(t){navigator.clipboard.writeText(t).then(()=>toast("📋 Copied!"));}
 
-// ── EXPORT CSV ──
 function exportCSV(){
   if(!rows.length){toast("⚠️ কোনো data নেই!");return;}
-  const csv=["#,Company,Username/Email,Password,Note",
+  const csv=["#,Company,Username,Password,Note",
     ...rows.map((r,i)=>[i+1,`"${r.company}"`,`"${r.user}"`,`"${r.password}"`,`"${r.note}"`].join(","))].join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"}));
   a.download="user-pw-list-v1.csv";a.click();toast("📤 CSV export হয়েছে!");
 }
 
-// ── IMPORT CSV ──
 function doImportCSV(){
   const file=document.getElementById("csv-file").files[0];
   const errEl=document.getElementById("import-err");
@@ -389,23 +244,15 @@ function doImportCSV(){
   const reader=new FileReader();
   reader.onload=function(e){
     const lines=e.target.result.split("\n").map(l=>l.trim()).filter(l=>l);
-    let imported=0,skipped=0;
+    let imported=0;
     lines.forEach((line,idx)=>{
-      // Skip header row
-      if(idx===0&&(line.toLowerCase().startsWith("#")||line.toLowerCase().startsWith("company")||line.toLowerCase().includes("username")))return;
+      if(idx===0&&(line.toLowerCase().startsWith("#")||line.toLowerCase().includes("company")))return;
       const cols=line.split(",").map(c=>c.replace(/^"|"$/g,"").trim());
-      if(cols.length<2){skipped++;return;}
-      rows.push({
-        company:cols[1]||cols[0]||"",
-        user:cols[2]||"",
-        password:cols[3]||"",
-        note:cols[4]||""
-      });
+      if(cols.length<2)return;
+      rows.push({company:cols[1]||cols[0]||"",user:cols[2]||"",password:cols[3]||"",note:cols[4]||""});
       imported++;
     });
-    renderTable();
-    closeModal("import-modal");
-    errEl.textContent="";
+    renderTable();closeModal("import-modal");
     document.getElementById("csv-file").value="";
     setStatus("✅ "+imported+" টি import হয়েছে। 💾 Save করুন।","ok");
     toast("📥 "+imported+" টি entry import হয়েছে!");
@@ -413,29 +260,30 @@ function doImportCSV(){
   reader.readAsText(file,"UTF-8");
 }
 
-// ── RENDER ──
+function closeModal(id){document.getElementById(id).style.display="none";}
+
 function renderTable(){
   const q=document.getElementById("search").value.toLowerCase();
   const tbody=document.getElementById("tbody");
   tbody.innerHTML="";
   const filtered=rows.map((r,i)=>({...r,_i:i}))
-    .filter(r=>!q||r.company.toLowerCase().includes(q)||r.user.toLowerCase().includes(q)||r.note.toLowerCase().includes(q));
+    .filter(r=>!q||r.company.toLowerCase().includes(q)||r.user.toLowerCase().includes(q)||r.password.toLowerCase().includes(q)||r.note.toLowerCase().includes(q));
   document.getElementById("empty-msg").style.display=filtered.length===0?"block":"none";
   filtered.forEach((r,fi)=>{
-    const i=r._i,shown=showPw[i];
+    const i=r._i;
     const tr=document.createElement("tr");
     tr.innerHTML=`
-      <td style="color:var(--text2);font-size:.76rem;width:28px">${fi+1}</td>
-      <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)"/></td>
+      <td style="color:#aaa;font-size:0.95rem;width:30px">${fi+1}</td>
+      <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" style="min-width:100px" autocomplete="off"/>
-        <button class="small-btn" onclick="copyText('${esc(r.user)}')" title="Username Copy">📋</button>
+        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:90px"/>
+        <button class="small-btn" onclick="copyText('${esc(r.user)}')" title="Copy">📋</button>
       </div></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:110px;font-family:monospace;"/>
-        <button class="small-btn" onclick="copyText('${esc(r.password)}')" title="Password Copy">📋</button>
+        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:100px;font-family:monospace;"/>
+        <button class="small-btn" onclick="copyText('${esc(r.password)}')" title="Copy">📋</button>
       </div></td>
-      <td><input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)"/></td>
+      <td><input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off"/></td>
       <td><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
     tbody.appendChild(tr);
   });
@@ -444,6 +292,8 @@ function renderTable(){
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/'/g,"&#39;");}
 function setStatus(m,t){const el=document.getElementById("status");el.textContent=m;el.className=t||"";}
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500);}
+
+loadFromSheets();
 </script>
 </body>
 </html>
