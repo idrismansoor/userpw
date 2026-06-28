@@ -2,154 +2,170 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>USER PW LIST V.1</title>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="PW LIST">
 <meta name="theme-color" content="#1a1a2e">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;min-height:100vh;font-size:15px;}
+html{height:100%;}
+body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;height:100%;font-size:15px;}
 
-/* ── LOGIN SCREEN ── */
-#login-screen{position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999;}
-.login-box{background:#16213e;border:2px solid #e94560;border-radius:16px;padding:40px 32px;text-align:center;max-width:380px;width:92%;}
-.login-icon{font-size:3rem;margin-bottom:10px;}
-.login-box h2{color:#e94560;font-size:1.5rem;margin-bottom:4px;}
-.login-box .sub{color:#aaa;font-size:0.8rem;margin-bottom:24px;}
-.login-field{position:relative;margin-bottom:14px;}
-.login-field label{display:block;text-align:left;color:#aaa;font-size:0.82rem;margin-bottom:5px;}
-.login-field input{width:100%;padding:11px 14px;border-radius:8px;border:2px solid #2a2a4a;background:#0f3460;color:#eee;font-size:1rem;}
-.login-field input:focus{outline:none;border-color:#e94560;}
-#login-err{color:#e94560;font-size:0.83rem;min-height:20px;margin-bottom:8px;}
-.btn-login{width:100%;padding:12px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:4px;}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999;overflow-y:auto;}
+.login-box{background:#16213e;border:2px solid #e94560;border-radius:16px;padding:36px 28px;text-align:center;max-width:380px;width:92%;margin:auto;}
+.login-icon{font-size:2.8rem;margin-bottom:8px;}
+.login-box h2{color:#e94560;font-size:1.4rem;margin-bottom:4px;}
+.login-box .sub{color:#aaa;font-size:0.78rem;margin-bottom:20px;}
+.lf{margin-bottom:14px;text-align:left;}
+.lf label{display:block;color:#aaa;font-size:0.82rem;margin-bottom:5px;}
+.lf .inp-wrap{position:relative;}
+.lf input{width:100%;padding:11px 14px;border-radius:8px;border:2px solid #2a2a4a;background:#0f3460;color:#eee;font-size:1rem;}
+.lf input:focus{outline:none;border-color:#e94560;}
+.eye-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;font-size:1.1rem;cursor:pointer;padding:4px;}
+#login-err{color:#e94560;font-size:0.83rem;min-height:18px;margin-bottom:8px;}
+.btn-login{width:100%;padding:12px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:bold;cursor:pointer;}
 .btn-login:hover{background:#c73652;}
-.login-footer{color:#555;font-size:0.75rem;margin-top:16px;}
+.login-footer{margin-top:14px;font-size:0.78rem;font-weight:bold;color:#f1c40f;line-height:1.6;}
 
-/* ── CHANGE CREDS MODAL ── */
-.modal-bg{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;z-index:8888;}
-.modal{background:#16213e;border:2px solid #e94560;border-radius:14px;padding:28px;max-width:360px;width:92%;text-align:center;}
-.modal h3{color:#e94560;margin-bottom:16px;font-size:1.1rem;}
+/* APP LAYOUT */
+#app{display:none;flex-direction:column;height:100vh;}
+
+/* STICKY HEADER */
+#sticky-top{flex-shrink:0;background:#16213e;}
+
+header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px solid #e94560;padding:10px 14px;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.header-left h1{font-size:1.1rem;color:#e94560;font-weight:bold;}
+.byline{font-size:0.75rem;color:#aaa;}
+.header-right{display:flex;gap:5px;flex-wrap:wrap;}
+.icon-btn{background:#0f3460;border:1px solid #2a2a4a;color:#eee;border-radius:7px;padding:6px 10px;cursor:pointer;font-size:0.78rem;white-space:nowrap;}
+.icon-btn:active{border-color:#e94560;color:#e94560;}
+
+.header-note{font-size:0.78rem;color:#f39c12;padding:5px 0 2px;border-top:1px dashed #2a2a4a;margin-top:6px;}
+
+/* QUICK LINKS */
+#quicklinks{padding:6px 14px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #2a2a4a;background:#0f3460;}
+#quicklinks a{color:#7ec8e3;font-size:0.78rem;text-decoration:none;padding:3px 10px;border:1px solid #2a3a5a;border-radius:12px;white-space:nowrap;}
+#quicklinks a:active{background:#e94560;color:#fff;}
+
+/* TOOLBAR */
+.toolbar{padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #2a2a4a;background:#16213e;}
+.toolbar input{flex:1;min-width:calc(50% - 6px);padding:9px 10px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.9rem;}
+.toolbar input::placeholder{color:#888;}
+.toolbar input:focus{outline:none;border-color:#e94560;}
+.t-btns{display:flex;gap:6px;width:100%;}
+.t-btns button{flex:1;padding:10px 6px;font-size:0.9rem;font-weight:bold;border:none;border-radius:7px;cursor:pointer;}
+.btn-add{background:#e94560;color:#fff;}
+.btn-save{background:#27ae60;color:#fff;}
+.btn-reload{background:#2980b9;color:#fff;}
+
+/* STATUS */
+#status{padding:6px 14px;font-size:0.85rem;background:#1a1a2e;color:#aaa;border-bottom:1px solid #2a2a4a;}
+#status.ok{color:#2ecc71;}#status.err{color:#e74c3c;}#status.loading{color:#f39c12;}
+
+/* SEARCH */
+.search-bar{padding:8px 12px;background:#16213e;border-bottom:1px solid #2a2a4a;display:flex;gap:6px;}
+.search-bar input{flex:1;padding:9px 12px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.95rem;}
+.search-bar input:focus{outline:none;border-color:#e94560;}
+.search-bar button{background:#0f3460;border:1px solid #2a2a4a;color:#eee;border-radius:7px;padding:8px 12px;font-size:0.85rem;white-space:nowrap;}
+
+/* TABLE HEADER - always visible */
+#thead-wrap{background:#0f3460;border-bottom:2px solid #e94560;overflow:hidden;flex-shrink:0;}
+#thead-wrap table{width:100%;border-collapse:collapse;font-size:0.88rem;table-layout:fixed;}
+#thead-wrap th{padding:9px 8px;text-align:left;color:#e94560;font-size:0.9rem;white-space:nowrap;}
+
+/* SCROLLABLE TABLE BODY */
+#tbody-wrap{flex:1;overflow-y:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+#main-table{width:100%;border-collapse:collapse;font-size:0.9rem;table-layout:fixed;}
+tbody tr{border-bottom:2px solid #2a2a4a;}
+tbody tr:active{background:#1e1e3a;}
+tbody td{padding:9px 8px;vertical-align:middle;}
+.editable{background:transparent;border:none;color:#eee;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;}
+.editable:focus{outline:1px solid #e94560;background:#0f3460;}
+.pw-wrap{display:flex;align-items:center;gap:3px;}
+.small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:6px 10px;font-size:0.82rem;border-radius:6px;white-space:nowrap;touch-action:manipulation;min-height:34px;}
+.small-btn:active{border-color:#e94560;color:#e94560;}
+.btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:8px 11px;font-size:0.9rem;border-radius:5px;min-width:38px;min-height:36px;touch-action:manipulation;}
+.btn-del:active{background:#e94560;color:#fff;}
+.empty-msg{text-align:center;padding:40px;color:#555;}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;z-index:8888;padding:16px;}
+.modal{background:#16213e;border:2px solid #e94560;border-radius:14px;padding:24px;max-width:360px;width:100%;text-align:center;max-height:90vh;overflow-y:auto;}
+.modal h3{color:#e94560;margin-bottom:14px;font-size:1rem;}
 .modal label{display:block;text-align:left;color:#aaa;font-size:0.8rem;margin-bottom:4px;margin-top:10px;}
 .modal input{width:100%;padding:10px 12px;border-radius:7px;border:1px solid #2a2a4a;background:#0f3460;color:#eee;font-size:0.9rem;}
 .modal input:focus{outline:none;border-color:#e94560;}
 .modal-err{color:#e94560;font-size:0.82rem;min-height:18px;margin-top:8px;}
 .modal-btns{display:flex;gap:8px;margin-top:14px;}
-.modal-btns button{flex:1;padding:10px;border-radius:7px;font-weight:bold;border:none;cursor:pointer;}
+.modal-btns button{flex:1;padding:10px;border-radius:7px;font-weight:bold;border:none;cursor:pointer;font-size:0.9rem;}
 .btn-ok{background:#27ae60;color:#fff;}
 .btn-cancel{background:#555;color:#fff;}
 
-/* ── STICKY TOP ── */
-#sticky-top{position:sticky;top:0;z-index:100;}
-
-/* ── HEADER ── */
-header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px solid #e94560;padding:10px 16px;}
-.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
-.header-top h1{font-size:1.2rem;color:#e94560;font-weight:bold;}
-.byline{font-size:0.75rem;color:#aaa;}
-.header-note{font-size:0.78rem;color:#f39c12;padding:4px 0 6px 0;border-top:1px dashed #2a2a4a;margin-top:6px;}
-.header-right{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.icon-btn{background:#0f3460;border:1px solid #2a2a4a;color:#eee;border-radius:7px;padding:6px 11px;cursor:pointer;font-size:0.82rem;transition:.2s;white-space:nowrap;}
-.icon-btn:hover{border-color:#e94560;color:#e94560;}
-
-/* ── QUICK LINKS ── */
-#quicklinks{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:4px 0 2px;}
-#quicklinks span{color:#aaa;font-size:0.75rem;}
-#quicklinks a{color:#7ec8e3;font-size:0.8rem;text-decoration:none;padding:3px 10px;border:1px solid #2a3a5a;border-radius:12px;white-space:nowrap;transition:.2s;}
-#quicklinks a:hover{background:#e94560;color:#fff;border-color:#e94560;}
-
-/* ── TOOLBAR ── */
-.toolbar{background:#16213e;padding:10px 14px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #2a2a4a;}
-.toolbar input{flex:1;min-width:120px;padding:9px 11px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.95rem;}
-.toolbar input::placeholder{color:#888;}
-.toolbar input:focus{outline:none;border-color:#e94560;}
-button{cursor:pointer;border:none;border-radius:7px;font-weight:bold;transition:.2s;}
-.btn-add{background:#e94560;color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-save{background:#27ae60;color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-reload{background:#2980b9;color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-export{background:#8e44ad;color:#fff;padding:9px 14px;font-size:0.95rem;}
-.btn-import{background:#d35400;color:#fff;padding:9px 14px;font-size:0.95rem;}
-button:hover{filter:brightness(.88);}
-
-/* ── STATUS ── */
-#status{padding:7px 14px;font-size:0.9rem;min-height:30px;background:#1a1a2e;color:#aaa;border-bottom:1px solid #2a2a4a;}
-#status.ok{color:#2ecc71;}#status.err{color:#e74c3c;}#status.loading{color:#f39c12;}
-
-/* ── SEARCH ── */
-.search-bar{padding:9px 14px;background:#16213e;border-bottom:1px solid #2a2a4a;display:flex;gap:8px;align-items:center;}
-.search-bar input{flex:1;padding:9px 13px;border:1px solid #2a2a4a;border-radius:7px;background:#0f3460;color:#eee;font-size:0.95rem;}
-.search-bar input:focus{outline:none;border-color:#e94560;}
-
-/* ── TABLE ── */
-#thead-wrap{background:#0f3460;border-bottom:2px solid #e94560;overflow:hidden;}
-#thead-wrap table{width:100%;border-collapse:collapse;font-size:0.95rem;table-layout:fixed;}
-#thead-wrap th{padding:10px;text-align:left;color:#e94560;font-size:1rem;white-space:nowrap;}
-.table-wrap{overflow-x:auto;}
-#main-table{width:100%;border-collapse:collapse;font-size:0.95rem;table-layout:fixed;}
-tbody tr{border-bottom:1px solid #2a2a4a;transition:background .15s;}
-tbody tr:hover{background:#1e1e3a;}
-tbody td{padding:9px;vertical-align:middle;}
-.editable{background:transparent;border:none;color:#eee;font-size:0.95rem;width:100%;font-family:Arial,sans-serif;padding:3px 5px;border-radius:4px;}
-.editable:focus{outline:1px solid #e94560;background:#0f3460;}
-.pw-wrap{display:flex;align-items:center;gap:4px;}
-.small-btn{background:none;border:1px solid #2a2a4a;color:#aaa;padding:4px 8px;font-size:0.8rem;border-radius:4px;}
-.small-btn:hover{border-color:#e94560;color:#e94560;}
-.btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:5px 10px;font-size:0.82rem;border-radius:5px;}
-.btn-del:hover{background:#e94560;color:#fff;}
-.empty-msg{text-align:center;padding:50px;color:#555;}
-
-/* ── TOAST ── */
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:9px 20px;border-radius:20px;font-size:0.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;}
-#toast.show{opacity:1;}
-
-@media(max-width:600px){
-  .toolbar input{min-width:100%;}
-  .btn-add,.btn-save,.btn-reload,.btn-export,.btn-import{width:100%;padding:11px;}
-  #quicklinks a{font-size:0.74rem;}
+/* DESKTOP TABLE VIEW */
+@media(min-width:768px){
+  .card-row{display:none !important;}
+  .desk-row{display:table-row !important;}
+  #thead-wrap table colgroup,
+  #thead-wrap .desk-thead{display:table-header-group;}
 }
+/* MOBILE CARD VIEW */
+@media(max-width:767px){
+  .desk-row{display:none !important;}
+  .card-row{display:table-row !important;}
+  .desk-thead{display:none !important;}
+  .mobile-thead{display:table-header-group !important;}
+}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:9px 20px;border-radius:20px;font-size:0.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;white-space:nowrap;}
+#toast.show{opacity:1;}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-icon">🗂️</div>
     <h2>USER PW LIST V.1</h2>
     <div class="sub">Created by Idris Mansoor</div>
-    <div class="login-field">
+    <div class="lf">
       <label>👤 Username</label>
-      <input type="text" id="l-user" placeholder="Username লিখুন" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()" />
+      <input type="text" id="l-user" placeholder="Username লিখুন" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()"/>
     </div>
-    <div class="login-field">
+    <div class="lf">
       <label>🔑 Password</label>
-      <div style="position:relative;">
-        <input type="password" id="l-pass" placeholder="Password লিখুন" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()" style="padding-right:44px;width:100%;"/>
-        <button onclick="toggleLoginPw()" id="eye-btn" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;font-size:1.1rem;cursor:pointer;padding:4px;">👁️</button>
+      <div class="inp-wrap">
+        <input type="password" id="l-pass" placeholder="Password লিখুন" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()" style="padding-right:44px;"/>
+        <button class="eye-btn" onclick="toggleEye()">👁️</button>
       </div>
     </div>
     <div id="login-err"></div>
     <button class="btn-login" onclick="doLogin()">🔓 প্রবেশ করুন</button>
-    <div class="login-footer"><b style="color:#f1c40f;">Only S E A SHIPPING Employee Used.</b><br><b style="color:#f1c40f;">Start Date - July 2026</b></div>
+    <div class="login-footer">
+      Only S E A SHIPPING Employee Used.<br>Start Date - July 2026
+    </div>
   </div>
 </div>
 
-<!-- CHANGE CREDENTIALS MODAL -->
+<!-- CHANGE CREDS MODAL -->
 <div class="modal-bg" id="creds-modal" style="display:none">
   <div class="modal">
-    <h3>🔑 Login পরিবর্তন করুন</h3>
+    <h3>🔑 Login পরিবর্তন</h3>
     <label>বর্তমান Password</label>
     <input type="password" id="c-old" placeholder="বর্তমান password" autocomplete="new-password"/>
     <label>নতুন Username</label>
     <input type="text" id="c-user" placeholder="নতুন username" autocomplete="off"/>
     <label>নতুন Password</label>
-    <input type="password" id="c-new" placeholder="নতুন password (কমপক্ষে ৪ অক্ষর)" autocomplete="new-password"/>
+    <input type="password" id="c-new" placeholder="কমপক্ষে ৪ অক্ষর" autocomplete="new-password"/>
     <label>নতুন Password আবার</label>
     <input type="password" id="c-new2" placeholder="confirm password" autocomplete="new-password"/>
     <div class="modal-err" id="creds-err"></div>
     <div class="modal-btns">
-      <button class="btn-ok" onclick="doChangeCreds()">✅ পরিবর্তন করুন</button>
+      <button class="btn-ok" onclick="doChangeCreds()">✅ পরিবর্তন</button>
       <button class="btn-cancel" onclick="closeModal('creds-modal')">❌ বাতিল</button>
     </div>
   </div>
@@ -159,8 +175,8 @@ tbody td{padding:9px;vertical-align:middle;}
 <div class="modal-bg" id="import-modal" style="display:none">
   <div class="modal">
     <h3>📥 CSV Import</h3>
-    <p style="color:#aaa;font-size:.82rem;margin-bottom:12px;">ফরম্যাট: <b>#, Company, Username, Password, Note</b></p>
-    <input type="file" id="csv-file" accept=".csv" style="color:#eee;margin-bottom:10px;width:100%"/>
+    <p style="color:#aaa;font-size:.82rem;margin-bottom:12px;">ফরম্যাট: #, Company, Username, Password, Note</p>
+    <input type="file" id="csv-file" accept=".csv" style="color:#eee;width:100%;margin-bottom:10px;"/>
     <div class="modal-err" id="import-err"></div>
     <div class="modal-btns">
       <button class="btn-ok" onclick="doImportCSV()">📥 Import</button>
@@ -169,25 +185,24 @@ tbody td{padding:9px;vertical-align:middle;}
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app" style="display:none">
+<!-- APP -->
+<div id="app">
   <div id="sticky-top">
     <header>
       <div class="header-top">
-        <div>
+        <div class="header-left">
           <h1>🗂️ USER PW LIST V.1</h1>
           <div class="byline">Created by <b style="color:#2ecc71;">Idris Mansoor</b></div>
         </div>
-        <div class="header-note">📝 <i>নোট: যেকোনো password এ্যাড করুন এবং Save করুন — Google Sheet এ যোগ হবে।</i></div>
-      <div class="header-right">
-          <button class="icon-btn" onclick="document.getElementById('creds-modal').style.display='flex'">🔑 Login পরিবর্তন</button>
+        <div class="header-right">
+          <button class="icon-btn" onclick="document.getElementById('creds-modal').style.display='flex'">🔑 Login</button>
           <button class="icon-btn" onclick="doLogout()">🚪 Logout</button>
           <button class="icon-btn" onclick="document.getElementById('import-modal').style.display='flex'">📥 Import</button>
           <button class="icon-btn" onclick="exportCSV()">📤 Export</button>
         </div>
       </div>
+      <div class="header-note">📝 নোট: যেকোনো password এ্যাড করুন এবং Save করুন — Google Sheet এ যোগ হবে।</div>
       <div id="quicklinks">
-        <span>🔗</span>
         <a href="https://www.gulftainer.com/container-tracking/" target="_blank">📦 Container Tracking</a>
         <a href="https://tos.gulftainer.com/" target="_blank">🚢 TOS Gulftainer</a>
         <a href="https://eservices.gulftainer.com/a/e-token-generator/login" target="_blank">🎫 E-Token</a>
@@ -199,37 +214,47 @@ tbody td{padding:9px;vertical-align:middle;}
       <input type="text" id="inp-company" placeholder="🏢 কোম্পানি" autocomplete="off"/>
       <input type="text" id="inp-user" placeholder="👤 User Name" autocomplete="off"/>
       <input type="text" id="inp-pw" placeholder="🔑 Password" autocomplete="new-password"/>
-      <input type="text" id="inp-note" placeholder="📝 Note" autocomplete="off"/>
-      <button class="btn-add" onclick="addRow()">➕ যোগ করুন</button>
-      <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
-      <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
+      <input type="text" id="inp-note" placeholder="📝 Note / Mobile No." autocomplete="off"/>
+      <div class="t-btns">
+        <button class="btn-add" onclick="addRow()">➕ যোগ করুন</button>
+        <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
+        <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
+      </div>
     </div>
 
     <div id="status" class="loading">⏳ লোড হচ্ছে...</div>
 
     <div class="search-bar">
-      <input type="text" id="search" placeholder="🔍 কোম্পানি বা username খুঁজুন..." oninput="renderTable()" autocomplete="off"/>
-      <button class="icon-btn" onclick="document.getElementById('search').value='';renderTable();">✖ Clear</button>
+      <input type="search" id="search" placeholder="🔍 খুঁজুন..." autocomplete="off" oninput="renderTable()" onkeyup="renderTable()"/>
+      <button onclick="clearSearch()">✖ Clear</button>
+    </div>
+
+    <!-- TABLE HEADER ALWAYS VISIBLE -->
+    <div id="thead-wrap">
+      <table>
+        <thead>
+          <!-- DESKTOP HEADER -->
+          <tr class="desk-thead">
+            <th style="width:34px">#</th>
+            <th style="width:22%">কোম্পানি</th>
+            <th style="width:16%">User Name</th>
+            <th style="width:20%">Password</th>
+            <th style="width:18%">Note / Mobile No.</th>
+            <th style="width:60px">মুছুন</th>
+          </tr>
+          <!-- MOBILE HEADER -->
+          <tr class="mobile-thead" style="display:none;">
+            <th style="width:34px">#</th>
+            <th>কোম্পানি / User / Password</th>
+            <th style="width:60px">মুছুন</th>
+          </tr>
+        </thead>
+      </table>
     </div>
   </div><!-- end sticky-top -->
 
-  <!-- FIXED HEADER TABLE -->
-  <div id="thead-wrap">
-    <table id="thead-table">
-      <thead>
-        <tr>
-          <th style="width:40px">#</th>
-          <th>কোম্পানি</th>
-          <th>User Name</th>
-          <th>Password</th>
-          <th>Note</th>
-          <th style="width:70px">মুছুন</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
   <!-- SCROLLABLE BODY -->
-  <div class="table-wrap">
+  <div id="tbody-wrap">
     <table id="main-table">
       <tbody id="tbody"></tbody>
     </table>
@@ -241,94 +266,75 @@ tbody td{padding:9px;vertical-align:middle;}
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbxX9odOf2AKtPFVLylDTfCyjbbdPPekNyx-Baeo2o5-QcOgZo-X6kpTOBjCOHv7vxMl_Q/exec";
+const DEFAULT_USER="tosadmin", DEFAULT_PASS="Tos@2024";
+let rows=[];
 
-// ── DEFAULT CREDENTIALS (stored in localStorage after first login) ──
-const DEFAULT_USER = "tosadmin";
-const DEFAULT_PASS = "Tos@2024";
+function getCreds(){return{user:localStorage.getItem("appUser")||DEFAULT_USER,pass:localStorage.getItem("appPass")||DEFAULT_PASS};}
 
-function getStoredCreds(){
-  return {
-    user: localStorage.getItem("appUser") || DEFAULT_USER,
-    pass: localStorage.getItem("appPass") || DEFAULT_PASS
-  };
-}
-
-// ── LOGIN ──
-function toggleLoginPw(){
-  const inp = document.getElementById("l-pass");
-  const btn = document.getElementById("eye-btn");
-  if(inp.type === "password"){ inp.type = "text"; btn.textContent = "🙈"; }
-  else { inp.type = "password"; btn.textContent = "👁️"; }
+function toggleEye(){
+  const i=document.getElementById("l-pass");
+  const b=i.nextElementSibling;
+  i.type=i.type==="password"?"text":"password";
+  b.textContent=i.type==="password"?"👁️":"🙈";
 }
 
 function doLogin(){
-  const u = document.getElementById("l-user").value.trim();
-  const p = document.getElementById("l-pass").value;
-  const creds = getStoredCreds();
-  if(u === creds.user && p === creds.pass){
-    document.getElementById("login-screen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    document.getElementById("login-err").textContent = "";
+  const u=document.getElementById("l-user").value.trim();
+  const p=document.getElementById("l-pass").value;
+  const c=getCreds();
+  if(u===c.user&&p===c.pass){
+    document.getElementById("login-screen").style.display="none";
+    document.getElementById("app").style.display="flex";
     loadFromSheets();
-  } else {
-    document.getElementById("login-err").textContent = "❌ Username বা Password ভুল!";
-    document.getElementById("l-pass").value = "";
+  }else{
+    document.getElementById("login-err").textContent="❌ Username বা Password ভুল!";
+    document.getElementById("l-pass").value="";
   }
 }
 
 function doLogout(){
-  document.getElementById("app").style.display = "none";
-  document.getElementById("login-screen").style.display = "flex";
-  document.getElementById("l-user").value = "";
-  document.getElementById("l-pass").value = "";
-  document.getElementById("login-err").textContent = "";
+  document.getElementById("app").style.display="none";
+  document.getElementById("login-screen").style.display="flex";
+  document.getElementById("l-user").value="";
+  document.getElementById("l-pass").value="";
+  document.getElementById("login-err").textContent="";
 }
 
-// ── CHANGE CREDENTIALS ──
 function doChangeCreds(){
-  const oldPass = document.getElementById("c-old").value;
-  const newUser = document.getElementById("c-user").value.trim();
-  const newPass = document.getElementById("c-new").value;
-  const newPass2 = document.getElementById("c-new2").value;
-  const errEl = document.getElementById("creds-err");
-  const creds = getStoredCreds();
-
-  if(oldPass !== creds.pass){ errEl.textContent="❌ বর্তমান password ভুল!"; return; }
-  if(!newUser){ errEl.textContent="❌ নতুন username দিন!"; return; }
-  if(newPass.length < 4){ errEl.textContent="❌ Password কমপক্ষে ৪ অক্ষর!"; return; }
-  if(newPass !== newPass2){ errEl.textContent="❌ Password দুটো মিলছে না!"; return; }
-
-  localStorage.setItem("appUser", newUser);
-  localStorage.setItem("appPass", newPass);
+  const op=document.getElementById("c-old").value;
+  const nu=document.getElementById("c-user").value.trim();
+  const np=document.getElementById("c-new").value;
+  const np2=document.getElementById("c-new2").value;
+  const e=document.getElementById("creds-err");
+  const c=getCreds();
+  if(op!==c.pass){e.textContent="❌ বর্তমান password ভুল!";return;}
+  if(!nu){e.textContent="❌ নতুন username দিন!";return;}
+  if(np.length<4){e.textContent="❌ কমপক্ষে ৪ অক্ষর!";return;}
+  if(np!==np2){e.textContent="❌ Password মিলছে না!";return;}
+  localStorage.setItem("appUser",nu);
+  localStorage.setItem("appPass",np);
   closeModal("creds-modal");
   ["c-old","c-user","c-new","c-new2"].forEach(id=>document.getElementById(id).value="");
-  errEl.textContent="";
+  e.textContent="";
   toast("✅ Login তথ্য পরিবর্তন হয়েছে!");
 }
 
-let rows=[];
-
-// Back button fix
-history.pushState({p:1},null,location.href);
-window.addEventListener('popstate',function(){
-  history.pushState({p:1},null,location.href);
-  if(document.activeElement&&document.activeElement!==document.body) document.activeElement.blur();
-});
+function closeModal(id){document.getElementById(id).style.display="none";}
 
 async function loadFromSheets(){
-  setStatus("⏳ Google Sheets থেকে load হচ্ছে...","loading");
+  setStatus("⏳ লোড হচ্ছে...","loading");
   try{
     const res=await fetch(API_URL,{redirect:"follow"});
     const data=await res.json();
     if(data.status==="ok"){
       rows=data.rows;
       localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
-      setStatus("✅ "+rows.length+" টি entry load হয়েছে — Google Sheets সংযুক্ত","ok");
+      setStatus("✅ "+rows.length+" টি entry load হয়েছে","ok");
     }else throw new Error();
   }catch(e){
     const b=localStorage.getItem("tosKhoBackup");
-    if(b){rows=JSON.parse(b);setStatus("⚠️ Sheets ব্যর্থ — local backup: "+rows.length+" entry","err");}
-    else{rows=[];setStatus("⚠️ Sheets সংযোগ ব্যর্থ","err");}
+    if(b){rows=JSON.parse(b);setStatus("⚠️ Local backup: "+rows.length+" entry","err");}
+    else{rows=[];setStatus("⚠️ সংযোগ ব্যর্থ","err");}
   }
   renderTable();
 }
@@ -345,7 +351,7 @@ async function saveToSheets(){
     }else throw new Error();
   }catch(e){
     localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
-    setStatus("⚠️ Sheets save ব্যর্থ — local এ save হয়েছে","err");
+    setStatus("⚠️ Local এ save হয়েছে","err");
   }
 }
 
@@ -357,16 +363,21 @@ function addRow(){
   if(!c&&!u){setStatus("❌ কোম্পানি বা username দিন!","err");return;}
   rows.push({company:c,user:u,password:p,note:n});
   ["inp-company","inp-user","inp-pw","inp-note"].forEach(id=>document.getElementById(id).value="");
-  renderTable();setStatus("✅ যোগ হয়েছে! 💾 Save করুন।","ok");toast("✅ Entry যোগ হয়েছে!");
+  renderTable();setStatus("✅ যোগ হয়েছে! 💾 Save করুন।","ok");toast("✅ যোগ হয়েছে!");
 }
 
 function deleteRow(i){
-  if(!confirm("এই entry মুছবেন?"))return;
+  if(!confirm("মুছবেন?"))return;
   rows.splice(i,1);renderTable();setStatus("🗑️ মুছে গেছে। 💾 Save করুন।","ok");
 }
 
 function editField(i,f,v){rows[i][f]=v;}
-function copyText(t){navigator.clipboard.writeText(t).then(()=>toast("📋 Copied!"));}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>toast("📋 Copied!")).catch(()=>{});}
+
+function clearSearch(){
+  document.getElementById("search").value="";
+  renderTable();
+}
 
 function exportCSV(){
   if(!rows.length){toast("⚠️ কোনো data নেই!");return;}
@@ -394,17 +405,13 @@ function doImportCSV(){
     renderTable();closeModal("import-modal");
     document.getElementById("csv-file").value="";
     setStatus("✅ "+n+" টি import হয়েছে। 💾 Save করুন।","ok");
-    toast("📥 "+n+" টি entry import!");
+    toast("📥 "+n+" টি import!");
   };
   reader.readAsText(file,"UTF-8");
 }
 
-function closeModal(id){
-  document.getElementById(id).style.display="none";
-}
-
 function renderTable(){
-  const q=document.getElementById("search").value.toLowerCase();
+  const q=(document.getElementById("search").value||"").toLowerCase().trim();
   const tbody=document.getElementById("tbody");
   tbody.innerHTML="";
   const filtered=rows.map((r,i)=>({...r,_i:i}))
@@ -413,26 +420,65 @@ function renderTable(){
   filtered.forEach((r,fi)=>{
     const i=r._i;
     const tr=document.createElement("tr");
-    tr.innerHTML=`
-      <td style="color:#aaa;font-size:0.95rem;width:40px">${fi+1}</td>
+    // DESKTOP ROW
+    const deskTr = document.createElement("tr"); deskTr.className = "desk-row";
+    deskTr.className = "desk-row";
+    deskTr.innerHTML = `
+      <td style="color:#aaa;font-size:0.9rem;width:34px">${fi+1}</td>
       <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:90px"/>
+        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:70px"/>
         <button class="small-btn" onclick="copyText('${esc(r.user)}')">📋</button>
       </div></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:100px;font-family:monospace;"/>
+        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:80px;font-family:monospace;"/>
         <button class="small-btn" onclick="copyText('${esc(r.password)}')">📋</button>
       </div></td>
-      <td><input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off"/></td>
-      <td style="width:70px"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
-    tbody.appendChild(tr);
+      <td><div class="pw-wrap">
+        <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="min-width:70px"/>
+        <button class="small-btn" onclick="copyText('${esc(r.note)}')">📋</button>
+      </div></td>
+      <td><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
+    tbody.appendChild(deskTr);
+
+    // MOBILE ROW (card style)
+    const cardTr = document.createElement("tr");
+    cardTr.className = "card-row";
+    cardTr.innerHTML = `
+      <td style="color:#aaa;font-size:0.88rem;width:34px;vertical-align:top;padding-top:14px">${fi+1}</td>
+      <td style="padding:8px 6px;">
+        <div style="font-weight:bold;font-size:0.95rem;color:#eee;margin-bottom:8px;">${esc(r.company)}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+          <span style="min-width:24px;">👤</span>
+          <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="flex:1;background:#0f3460;border-radius:5px;padding:6px 8px;"/>
+          <button class="small-btn" onclick="copyText('${esc(r.user)}')">📋 Copy</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+          <span style="min-width:24px;">🔑</span>
+          <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="flex:1;font-family:monospace;background:#0f3460;border-radius:5px;padding:6px 8px;"/>
+          <button class="small-btn" onclick="copyText('${esc(r.password)}')">📋 Copy</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="min-width:24px;">📝</span>
+          <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="flex:1;background:#0f3460;border-radius:5px;padding:6px 8px;"/>
+          <button class="small-btn" onclick="copyText('${esc(r.note)}')">📋 Copy</button>
+        </div>
+      </td>
+      <td style="width:50px;vertical-align:top;padding-top:14px;"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
+    tbody.appendChild(cardTr);
   });
 }
 
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/'/g,"&#39;");}
 function setStatus(m,t){const el=document.getElementById("status");el.textContent=m;el.className=t||"";}
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500);}
+
+// Back button fix
+history.pushState({p:1},null,location.href);
+window.addEventListener('popstate',function(){
+  history.pushState({p:1},null,location.href);
+  if(document.activeElement&&document.activeElement!==document.body)document.activeElement.blur();
+});
 </script>
 </body>
 </html>
