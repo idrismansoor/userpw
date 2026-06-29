@@ -79,10 +79,12 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 /* SCROLLABLE TABLE BODY */
 #tbody-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;min-height:0;width:100%;}
 #main-table{width:100%;border-collapse:collapse;font-size:0.9rem;table-layout:fixed;}
-tbody tr{border-bottom:2px solid #2a2a4a;}
+tbody tr{border-bottom:1px solid #2a2a4a;}
+tbody td{color:#f1c40f;padding:9px 8px;border-right:1px solid #1e2a4a;vertical-align:middle;}
+tbody td:last-child{border-right:none;text-align:center;}
 tbody tr:active{background:#1e1e3a;}
 tbody td{padding:9px 8px;vertical-align:middle;}
-.editable{background:transparent;border:none;color:#eee;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
+.editable{background:transparent;border:none;color:#f1c40f;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
 .editable:focus{outline:1px solid #e94560;background:#0f3460;}
 .pw-wrap{display:flex;align-items:center;gap:4px;overflow:hidden;}
 .small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:6px 10px;font-size:0.82rem;border-radius:6px;white-space:nowrap;touch-action:manipulation;min-height:34px;}
@@ -469,8 +471,8 @@ function renderTable(){
     const deskTr = document.createElement("tr"); deskTr.className = "desk-row";
     deskTr.className = "desk-row";
     deskTr.innerHTML = `
-      <td style="color:#aaa;font-size:0.9rem;text-align:center;vertical-align:middle;">${fi+1}</td>
-      <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
+      <td style="color:#f39c12;font-size:0.9rem;text-align:center;vertical-align:middle;font-weight:bold;">${fi+1}</td>
+      <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off" style="color:#f1c40f;font-weight:bold;"/></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:70px"/>
         <button class="small-btn" onclick="copyText('${esc(r.user)}')">📋 কপি করুন</button>
