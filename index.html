@@ -87,7 +87,7 @@ tbody td{padding:9px 8px;vertical-align:middle;}
 .editable{background:transparent;border:none;color:#2ecc71;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
 .editable:focus{outline:1px solid #e94560;background:#0f3460;}
 .pw-wrap{display:flex;align-items:center;gap:4px;overflow:hidden;}
-.small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:6px 10px;font-size:0.82rem;border-radius:6px;white-space:nowrap;touch-action:manipulation;min-height:34px;}
+.small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:4px 7px;font-size:0.85rem;border-radius:5px;white-space:nowrap;touch-action:manipulation;min-height:30px;}
 .small-btn:active{border-color:#e94560;color:#e94560;}
 .btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:8px 11px;font-size:0.9rem;border-radius:5px;min-width:38px;min-height:36px;touch-action:manipulation;}
 .btn-del:active{background:#e94560;color:#fff;}
@@ -475,15 +475,15 @@ function renderTable(){
       <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off" style="color:#2ecc71;font-weight:bold;"/></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:70px"/>
-        <button class="small-btn" onclick="copyText('${esc(r.user)}')">📋 কপি করুন</button>
+        <button class="small-btn" onclick="copyText('${esc(r.user)}')" title="কপি করুন">📋</button>
       </div></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:80px;font-family:monospace;"/>
-        <button class="small-btn" onclick="copyText('${esc(r.password)}')">📋 কপি করুন</button>
+        <button class="small-btn" onclick="copyText('${esc(r.password)}')" title="কপি করুন">📋</button>
       </div></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="min-width:70px"/>
-        <button class="small-btn" onclick="copyText('${esc(r.note)}')">📋 কপি করুন</button>
+        <button class="small-btn" onclick="copyText('${esc(r.note)}')" title="কপি করুন">📋</button>
       </div></td>
       <td style="text-align:center;vertical-align:middle;"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
     tbody.appendChild(deskTr);
