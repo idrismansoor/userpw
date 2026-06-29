@@ -9,8 +9,8 @@
 <meta name="theme-color" content="#1a1a2e">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html{height:100%;}
-body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;height:100%;font-size:15px;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;font-size:15px;}
 
 /* LOGIN */
 #login-screen{position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999;overflow-y:auto;}
@@ -33,7 +33,7 @@ body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;height:100%;font
 #app{display:none;flex-direction:column;height:100vh;}
 
 /* STICKY HEADER */
-#sticky-top{flex-shrink:0;background:#16213e;}
+#sticky-top{flex-shrink:0;background:#16213e;width:100%;}
 
 header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px solid #e94560;padding:10px 14px;}
 .header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;}
@@ -77,14 +77,14 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 #thead-wrap th{padding:9px 8px;text-align:left;color:#e94560;font-size:0.9rem;white-space:nowrap;}
 
 /* SCROLLABLE TABLE BODY */
-#tbody-wrap{flex:1;overflow-y:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+#tbody-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;min-height:0;width:100%;}
 #main-table{width:100%;border-collapse:collapse;font-size:0.9rem;table-layout:fixed;}
 tbody tr{border-bottom:2px solid #2a2a4a;}
 tbody tr:active{background:#1e1e3a;}
 tbody td{padding:9px 8px;vertical-align:middle;}
-.editable{background:transparent;border:none;color:#eee;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;}
+.editable{background:transparent;border:none;color:#eee;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
 .editable:focus{outline:1px solid #e94560;background:#0f3460;}
-.pw-wrap{display:flex;align-items:center;gap:3px;}
+.pw-wrap{display:flex;align-items:center;gap:4px;overflow:hidden;}
 .small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:6px 10px;font-size:0.82rem;border-radius:6px;white-space:nowrap;touch-action:manipulation;min-height:34px;}
 .small-btn:active{border-color:#e94560;color:#e94560;}
 .btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:8px 11px;font-size:0.9rem;border-radius:5px;min-width:38px;min-height:36px;touch-action:manipulation;}
@@ -151,6 +151,27 @@ tbody td{padding:9px 8px;vertical-align:middle;}
   </div>
 </div>
 
+<!-- ADD COMPANY MODAL -->
+<div class="modal-bg" id="add-modal" style="display:none">
+  <div class="modal">
+    <h3>➕ নতুন কোম্পানি এ্যাড করুন</h3>
+    <label>🏢 Company Name</label>
+    <input type="text" id="inp-company" placeholder="Company Name লিখুন" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('inp-user').focus()"/>
+    <label>👤 User Name</label>
+    <input type="text" id="inp-user" placeholder="User Name লিখুন" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('inp-pw').focus()"/>
+    <label>🔑 Password</label>
+    <input type="text" id="inp-pw" placeholder="Password লিখুন" autocomplete="new-password" onkeydown="if(event.key==='Enter')document.getElementById('inp-note').focus()"/>
+    <label>📝 Note / Mobile No.</label>
+    <input type="text" id="inp-note" placeholder="Note / Mobile No. (ঐচ্ছিক)" autocomplete="off" onkeydown="if(event.key==='Enter')addAndSave()"/>
+    <div class="modal-err" id="add-err"></div>
+    <div class="modal-btns">
+      <button class="btn-ok" onclick="addAndSave()">💾 Save করুন</button>
+      <button class="btn-cancel" onclick="closeModal('add-modal')">❌ বাতিল</button>
+    </div>
+    <p style="color:#888;font-size:0.78rem;margin-top:8px;">💡 Enter চাপলে পরের field এ যাবে, শেষে Save হবে</p>
+  </div>
+</div>
+
 <!-- CHANGE CREDS MODAL -->
 <div class="modal-bg" id="creds-modal" style="display:none">
   <div class="modal">
@@ -211,12 +232,8 @@ tbody td{padding:9px 8px;vertical-align:middle;}
     </header>
 
     <div class="toolbar">
-      <input type="text" id="inp-company" placeholder="🏢 Company Name" autocomplete="off"/>
-      <input type="text" id="inp-user" placeholder="👤 User Name" autocomplete="off"/>
-      <input type="text" id="inp-pw" placeholder="🔑 Password" autocomplete="new-password"/>
-      <input type="text" id="inp-note" placeholder="📝 Note / Mobile No." autocomplete="off"/>
       <div class="t-btns">
-        <button class="btn-add" onclick="addRow()">➕ নতুন কোম্পানি এ্যাড করুন</button>
+        <button class="btn-add" onclick="openAddModal()">➕ নতুন কোম্পানি এ্যাড করুন</button>
         <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
         <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
       </div>
@@ -245,7 +262,7 @@ tbody td{padding:9px 8px;vertical-align:middle;}
           <!-- MOBILE HEADER -->
           <tr class="mobile-thead" style="display:none;">
             <th style="width:34px">#</th>
-            <th>কোম্পানি / User / Password</th>
+            <th>Company / User / Password / Note</th>
             <th style="width:60px">মুছুন</th>
           </tr>
         </thead>
@@ -255,7 +272,15 @@ tbody td{padding:9px 8px;vertical-align:middle;}
 
   <!-- SCROLLABLE BODY -->
   <div id="tbody-wrap">
-    <table id="main-table">
+    <table id="main-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">
+      <colgroup>
+        <col style="width:44px"/>
+        <col style="width:23%"/>
+        <col style="width:15%"/>
+        <col style="width:20%"/>
+        <col style="width:20%"/>
+        <col style="width:100px"/>
+      </colgroup>
       <tbody id="tbody"></tbody>
     </table>
     <div id="empty-msg" class="empty-msg" style="display:none">কোনো entry নেই।</div>
@@ -355,6 +380,26 @@ async function saveToSheets(){
   }
 }
 
+function openAddModal(){
+  document.getElementById("add-modal").style.display = "flex";
+  setTimeout(()=>document.getElementById("inp-company").focus(), 100);
+}
+
+async function addAndSave(){
+  const c=document.getElementById("inp-company").value.trim();
+  const u=document.getElementById("inp-user").value.trim();
+  const p=document.getElementById("inp-pw").value.trim();
+  const n=document.getElementById("inp-note").value.trim();
+  if(!c&&!u){document.getElementById("add-err").textContent="❌ Company বা Username দিন!";return;}
+  rows.push({company:c,user:u,password:p,note:n});
+  ["inp-company","inp-user","inp-pw","inp-note"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("add-err").textContent="";
+  closeModal("add-modal");
+  renderTable();
+  setStatus("⏳ Google Sheets এ save হচ্ছে...","loading");
+  await saveToSheets();
+}
+
 function addRow(){
   const c=document.getElementById("inp-company").value.trim();
   const u=document.getElementById("inp-user").value.trim();
@@ -424,7 +469,7 @@ function renderTable(){
     const deskTr = document.createElement("tr"); deskTr.className = "desk-row";
     deskTr.className = "desk-row";
     deskTr.innerHTML = `
-      <td style="color:#aaa;font-size:0.9rem;width:40px;text-align:center">${fi+1}</td>
+      <td style="color:#aaa;font-size:0.9rem;text-align:center;vertical-align:middle;">${fi+1}</td>
       <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
       <td><div class="pw-wrap">
         <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:70px"/>
@@ -438,7 +483,7 @@ function renderTable(){
         <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="min-width:70px"/>
         <button class="small-btn" onclick="copyText('${esc(r.note)}')">📋 কপি করুন</button>
       </div></td>
-      <td style="text-align:center"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
+      <td style="text-align:center;vertical-align:middle;"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
     tbody.appendChild(deskTr);
 
     // MOBILE ROW (card style)
@@ -447,7 +492,7 @@ function renderTable(){
     cardTr.innerHTML = `
       <td style="color:#aaa;font-size:0.88rem;width:34px;vertical-align:top;padding-top:14px">${fi+1}</td>
       <td style="padding:8px 6px;">
-        <div style="font-weight:bold;font-size:0.95rem;color:#eee;margin-bottom:8px;">${esc(r.company)}</div>
+        <div style="font-weight:bold;font-size:0.95rem;color:#eee;margin-bottom:8px;word-break:break-word;">${esc(r.company)}</div>
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
           <span style="min-width:24px;">👤</span>
           <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="flex:1;background:#0f3460;border-radius:5px;padding:6px 8px;"/>
