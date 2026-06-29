@@ -80,14 +80,14 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 #tbody-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;min-height:0;width:100%;}
 #main-table{width:100%;border-collapse:collapse;font-size:0.9rem;table-layout:fixed;}
 tbody tr{border-bottom:1px solid #2a2a4a;}
-tbody td{color:#2ecc71;padding:9px 8px;border-right:1px solid #1e2a4a;vertical-align:middle;}
+tbody td{color:#2ecc71;padding:6px 5px;border-right:1px solid #1e2a4a;vertical-align:middle;font-size:0.88rem;}
 tbody td:last-child{border-right:none;text-align:center;}
 tbody tr:active{background:#1e1e3a;}
 tbody td{padding:9px 8px;vertical-align:middle;}
-.editable{background:transparent;border:none;color:#2ecc71;font-size:0.9rem;width:100%;font-family:Arial,sans-serif;padding:2px 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
+.editable{background:transparent;border:none;color:#2ecc71;font-size:0.85rem;width:100%;font-family:Arial,sans-serif;padding:1px 3px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;}
 .editable:focus{outline:1px solid #e94560;background:#0f3460;}
 .pw-wrap{display:flex;align-items:center;gap:4px;overflow:hidden;}
-.small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:4px 7px;font-size:0.85rem;border-radius:5px;white-space:nowrap;touch-action:manipulation;min-height:30px;}
+.small-btn{background:#0f3460;border:1px solid #3a5a8a;color:#7ec8e3;padding:3px 5px;font-size:0.78rem;border-radius:4px;white-space:nowrap;touch-action:manipulation;}
 .small-btn:active{border-color:#e94560;color:#e94560;}
 .btn-del{background:none;border:1px solid #e94560;color:#e94560;padding:8px 11px;font-size:0.9rem;border-radius:5px;min-width:38px;min-height:36px;touch-action:manipulation;}
 .btn-del:active{background:#e94560;color:#fff;}
@@ -471,18 +471,18 @@ function renderTable(){
     const deskTr = document.createElement("tr"); deskTr.className = "desk-row";
     deskTr.className = "desk-row";
     deskTr.innerHTML = `
-      <td style="color:#2ecc71;font-size:0.9rem;text-align:center;vertical-align:middle;font-weight:bold;">${fi+1}</td>
+      <td style="color:#2ecc71;font-size:0.78rem;text-align:center;vertical-align:middle;font-weight:bold;width:30px;">${fi+1}</td>
       <td><input class="editable" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off" style="color:#2ecc71;font-weight:bold;"/></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:70px"/>
+        <input class="editable" value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off" style="min-width:40px;max-width:100%;"/>
         <button class="small-btn" onclick="copyText('${esc(r.user)}')" title="কপি করুন">📋</button>
       </div></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:80px;font-family:monospace;"/>
+        <input class="editable" value="${esc(r.password)}" oninput="editField(${i},'password',this.value)" autocomplete="off" style="min-width:40px;max-width:100%;font-family:monospace;"/>
         <button class="small-btn" onclick="copyText('${esc(r.password)}')" title="কপি করুন">📋</button>
       </div></td>
       <td><div class="pw-wrap">
-        <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="min-width:70px"/>
+        <input class="editable" value="${esc(r.note)}" oninput="editField(${i},'note',this.value)" autocomplete="off" style="min-width:40px;max-width:100%;"/>
         <button class="small-btn" onclick="copyText('${esc(r.note)}')" title="কপি করুন">📋</button>
       </div></td>
       <td style="text-align:center;vertical-align:middle;"><button class="btn-del" onclick="deleteRow(${i})">🗑️</button></td>`;
