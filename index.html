@@ -57,7 +57,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 /* TOOLBAR */
 .toolbar{background:#16213e;padding:8px 12px;display:flex;gap:6px;border-bottom:1px solid #2a2a4a;}
 .t-btns{display:flex;gap:6px;width:100%;}
-.t-btns button{flex:1;padding:6px 4px;font-size:0.75rem;font-weight:bold;border:none;border-radius:15px;cursor:pointer;}
+.t-btns button{flex:1;padding:9px 6px;font-size:0.9rem;font-weight:bold;border:none;border-radius:20px;cursor:pointer;}
 .btn-add{background:linear-gradient(90deg,#c026d3,#ff2d9c);color:#fff;box-shadow:0 0 12px #c026d366;}
 .btn-save{background:linear-gradient(90deg,#27ae60,#2dd4ff);color:#fff;box-shadow:0 0 12px #2dd4ff66;}
 .btn-reload{background:linear-gradient(90deg,#2980b9,#c026d3);color:#fff;box-shadow:0 0 12px #c026d366;}
@@ -221,13 +221,13 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
   <div class="modal">
     <h3>📥 CSV Import (Replace)</h3>
     <p style="color:#cfd8e3;font-size:.85rem;margin-bottom:8px;">ফরম্যাট: #, Company, Username, Password, Note</p>
-   <p style="color:#FFFF00;font-size:.82rem;margin-bottom:12px;">⚠️ Import করলে আগের সব Data মুছে নতুন Data Replace হবে!</p>
+    <p style="color:#e74c3c;font-size:.82rem;margin-bottom:12px;">⚠️ Import করলে আগের সব data মুছে নতুন data replace হবে!</p>
     <input type="file" id="csv-file" accept=".csv" style="color:#eee;width:100%;margin-bottom:10px;"/>
     <div class="modal-err" id="import-err"></div>
     <div class="modal-btns">
-      <button class="btn-ok" onclick="doImportCSV()">📥 ডাটা ইনপুট করুন</button>
-       <button class="btn-cancel" onclick="closeModal('creds-modal')"> বাতিল করুন</button>
-    </div> 
+      <button class="btn-ok" onclick="doImportCSV()">📥 Replace & Import</button>
+      <button class="btn-cancel" onclick="closeModal('import-modal')">❌ বাতিল</button>
+    </div>
   </div>
 </div>
 
@@ -243,7 +243,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
     <div class="modal-err" id="link-err"></div>
     <div class="modal-btns">
       <button class="btn-ok" onclick="saveLink()">💾 Save করুন</button>
-      <button class="btn-cancel" onclick="closeModal('link-modal')"> বাতিল করুন</button>
+      <button class="btn-cancel" onclick="closeModal('link-modal')">❌ বাতিল</button>
     </div>
     <!-- Edit মোডে Delete বাটন দেখাবে -->
     <button class="btn-link-del" id="link-del-btn" style="display:none" onclick="deleteLinkFromModal()">🗑️ এই Link টি Delete করুন</button>
@@ -689,5 +689,6 @@ window.addEventListener("popstate",function(){
   if(document.activeElement&&document.activeElement!==document.body)document.activeElement.blur();
 });
 </script>
-</body>
+</body>  
 </html>
+
