@@ -42,13 +42,17 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 .icon-btn{background:#0a0a1a;border:1px solid #2dd4ff88;color:#7ec8e3;border-radius:20px;padding:6px 14px;cursor:pointer;font-size:0.78rem;white-space:nowrap;box-shadow:0 0 6px #2dd4ff33;}
 .icon-btn:hover{border-color:#2dd4ff;color:#2dd4ff;box-shadow:0 0 12px #2dd4ff77;}
 .header-note{font-size:0.95rem;color:#2ecc71;text-align:center;font-weight:bold;padding:0 8px;}
+
+/* QUICKLINKS */
 #quicklinks{display:flex;gap:8px;flex-wrap:wrap;padding:6px 0 4px;}
 #quicklinks .link-wrap{position:relative;display:inline-flex;align-items:center;}
 #quicklinks a{color:#7ec8e3;font-size:0.92rem;font-weight:bold;text-decoration:none;padding:6px 16px;border:1px solid #c026d388;border-radius:18px;white-space:nowrap;background:#0a0a1a;box-shadow:0 0 6px #c026d333;}
 #quicklinks a:hover{background:linear-gradient(90deg,#c026d3,#2dd4ff);color:#fff;box-shadow:0 0 14px #2dd4ff99;}
-.link-del{display:none;background:#e94560;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:0.7rem;line-height:1;cursor:pointer;position:absolute;top:-6px;right:-6px;}
-#quicklinks.edit-mode .link-del{display:block;}
-#quicklinks.edit-mode a{pointer-events:none;opacity:0.85;}
+
+/* Edit মোডে শুধু একটা ✎ বাটন — লিংকের উপরে-ডানে */
+.link-edit{display:none;background:#2dd4ff;color:#06283e;border:none;border-radius:50%;width:20px;height:20px;font-size:0.72rem;line-height:1;cursor:pointer;position:absolute;top:-7px;right:-7px;z-index:2;font-weight:bold;box-shadow:0 0 6px #2dd4ff99;}
+#quicklinks.edit-mode .link-edit{display:block;}
+#quicklinks.edit-mode a{opacity:0.85;cursor:default;}
 
 /* TOOLBAR */
 .toolbar{background:#16213e;padding:8px 12px;display:flex;gap:6px;border-bottom:1px solid #2a2a4a;}
@@ -124,6 +128,8 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 .modal-btns button{flex:1;padding:10px;border-radius:20px;font-weight:bold;border:none;cursor:pointer;font-size:0.9rem;}
 .btn-ok{background:linear-gradient(90deg,#27ae60,#2dd4ff);color:#fff;box-shadow:0 0 10px #2dd4ff55;}
 .btn-cancel{background:linear-gradient(90deg,#ff2d6a,#ff8a00);color:#fff;box-shadow:0 0 10px #ff2d6a55;}
+/* Delete button inside link modal */
+.btn-link-del{width:100%;padding:10px;border-radius:20px;font-weight:bold;border:none;cursor:pointer;font-size:0.88rem;background:linear-gradient(90deg,#e94560,#ff2d9c);color:#fff;box-shadow:0 0 10px #e9456055;margin-top:8px;}
 
 /* RESPONSIVE */
 @media(max-width:767px){
@@ -172,7 +178,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 <!-- ADD MODAL -->
 <div class="modal-bg" id="add-modal" style="display:none">
   <div class="modal">
-    <h3>➕ নতুন ইউজার-পাসওয়ার্ড এন্ট্রি করুন</h3>
+    <h3>➕ নতুন ইউজার-পাসওয়ার্ড এন্ট্রি করুন</h3>
     <label>🏢 Company Name</label>
     <input type="text" id="inp-company" placeholder="Company Name" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('inp-user').focus()"/>
     <label>👤 User Name</label>
@@ -239,6 +245,8 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
       <button class="btn-ok" onclick="saveLink()">💾 Save করুন</button>
       <button class="btn-cancel" onclick="closeModal('link-modal')">❌ বাতিল</button>
     </div>
+    <!-- Edit মোডে Delete বাটন দেখাবে -->
+    <button class="btn-link-del" id="link-del-btn" style="display:none" onclick="deleteLinkFromModal()">🗑️ এই Link টি Delete করুন</button>
   </div>
 </div>
 
@@ -266,12 +274,12 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
       <div id="quicklinks"></div>
       <div style="display:flex;gap:8px;padding:2px 0 4px;">
         <button class="icon-btn" onclick="openAddLinkModal()">➕ Add Link</button>
-        <button class="icon-btn" onclick="toggleEditLinks()">✏️ Edit Link</button>
+        <button class="icon-btn" id="edit-link-btn" onclick="toggleEditLinks()">✏️ Edit Link</button>
       </div>
     </header>
     <div class="toolbar">
       <div class="t-btns">
-        <button class="btn-add" onclick="openAddModal()">➕ নতুন ইউজার-পাসওয়ার্ড এন্ট্রি করুন</button>
+        <button class="btn-add" onclick="openAddModal()">➕ নতুন ইউজার-পাসওয়ার্ড এন্ট্রি করুন</button>
         <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
         <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
       </div>
@@ -284,7 +292,6 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
   </div>
 
   <div id="tbody-wrap">
-    <!-- DESKTOP TABLE -->
     <table id="desk-table">
       <colgroup>
         <col/><col/><col/><col/><col/><col/>
@@ -301,7 +308,6 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
       </thead>
       <tbody id="desk-tbody"></tbody>
     </table>
-    <!-- MOBILE CARDS -->
     <div id="mobile-list"></div>
     <div id="empty-msg" class="empty-msg" style="display:none">কোনো entry নেই।</div>
   </div>
@@ -327,29 +333,49 @@ let linkEditMode=false;
 
 function loadLinks(){
   try{
-    const saved=localStorage.getItem("quickLinks");
+    const saved=localStorage.getItem("quickLinks_idris");
     quickLinks=saved?JSON.parse(saved):DEFAULT_LINKS.slice();
   }catch(e){quickLinks=DEFAULT_LINKS.slice();}
   renderLinks();
 }
 
-function saveLinks(){localStorage.setItem("quickLinks",JSON.stringify(quickLinks));}
+function saveLinks(){localStorage.setItem("quickLinks_idris",JSON.stringify(quickLinks));}
 
 function renderLinks(){
   const c=document.getElementById("quicklinks");
   c.innerHTML="";
-  if(linkEditMode)c.classList.add("edit-mode");else c.classList.remove("edit-mode");
+  if(linkEditMode){
+    c.classList.add("edit-mode");
+    document.getElementById("edit-link-btn").style.background="linear-gradient(90deg,#c026d3,#2dd4ff)";
+    document.getElementById("edit-link-btn").style.color="#fff";
+  }else{
+    c.classList.remove("edit-mode");
+    document.getElementById("edit-link-btn").style.background="";
+    document.getElementById("edit-link-btn").style.color="";
+  }
   quickLinks.forEach((l,idx)=>{
     const wrap=document.createElement("div");
     wrap.className="link-wrap";
+
     const a=document.createElement("a");
     a.href=l.url;a.target="_blank";a.textContent=l.label;
-    a.onclick=function(ev){if(linkEditMode){ev.preventDefault();openAddLinkModal(idx);}};
+    a.onclick=function(ev){
+      if(linkEditMode){ev.preventDefault();openAddLinkModal(idx);}
+    };
     wrap.appendChild(a);
-    const del=document.createElement("button");
-    del.className="link-del";del.textContent="✕";
-    del.onclick=function(){deleteLink(idx);};
-    wrap.appendChild(del);
+
+    // শুধু একটা ✎ Edit বাটন — উপরে ডানে
+    const editBtn=document.createElement("button");
+    editBtn.className="link-edit";
+    editBtn.textContent="✎";
+    editBtn.type="button";
+    editBtn.title="Edit this link";
+    editBtn.onclick=function(ev){
+      ev.preventDefault();ev.stopPropagation();
+      openAddLinkModal(idx);
+    };
+    wrap.appendChild(editBtn);
+
     c.appendChild(wrap);
   });
 }
@@ -357,21 +383,24 @@ function renderLinks(){
 function toggleEditLinks(){
   linkEditMode=!linkEditMode;
   renderLinks();
-  toast(linkEditMode?"✏️ Edit মোড চালু — লিংকে ক্লিক করে edit করুন, ✕ চাপলে delete হবে":"✅ Edit মোড বন্ধ");
+  toast(linkEditMode?"✏️ Edit মোড চালু — ✎ চাপুন অথবা লিংকে ক্লিক করুন":"✅ Edit মোড বন্ধ");
 }
 
 function openAddLinkModal(editIdx){
   document.getElementById("link-err").textContent="";
+  const delBtn=document.getElementById("link-del-btn");
   if(typeof editIdx==="number"){
     document.getElementById("link-modal-title").textContent="✏️ Link পরিবর্তন করুন";
     document.getElementById("link-edit-id").value=editIdx;
     document.getElementById("link-label").value=quickLinks[editIdx].label;
     document.getElementById("link-url").value=quickLinks[editIdx].url;
+    delBtn.style.display="block"; // Edit মোডে Delete বাটন দেখাবে
   }else{
     document.getElementById("link-modal-title").textContent="🔗 নতুন Link যোগ করুন";
     document.getElementById("link-edit-id").value="";
     document.getElementById("link-label").value="";
     document.getElementById("link-url").value="";
+    delBtn.style.display="none"; // নতুন add এ Delete বাটন লুকানো
   }
   document.getElementById("link-modal").style.display="flex";
 }
@@ -384,29 +413,30 @@ function saveLink(){
   if(!label||!url){err.textContent="❌ Label ও URL দিন!";return;}
   if(idVal!==""){
     quickLinks[parseInt(idVal)]={label,url};
+    toast("✅ Link আপডেট হয়েছে!");
   }else{
     quickLinks.push({label,url});
+    toast("✅ নতুন Link যোগ হয়েছে!");
   }
   saveLinks();renderLinks();closeModal("link-modal");
-  toast("✅ Link save হয়েছে!");
 }
 
-function deleteLink(idx){
+function deleteLinkFromModal(){
+  const idVal=document.getElementById("link-edit-id").value;
+  if(idVal==="")return;
   if(!confirm("এই link টি মুছবেন?"))return;
-  quickLinks.splice(idx,1);
-  saveLinks();renderLinks();
+  quickLinks.splice(parseInt(idVal),1);
+  saveLinks();renderLinks();closeModal("link-modal");
   toast("🗑️ Link মুছে গেছে!");
 }
 
-function getCreds(){return{user:localStorage.getItem("appUser")||DEFAULT_USER,pass:localStorage.getItem("appPass")||DEFAULT_PASS};}
+function getCreds(){return{user:localStorage.getItem("appUser_idris")||DEFAULT_USER,pass:localStorage.getItem("appPass_idris")||DEFAULT_PASS};}
 
-// Always reset to default if stored credentials don't match plain text format
 (function(){
-  const p = localStorage.getItem("appPass");
-  // If password looks btoa-encoded (old format), clear it
-  if(p && p !== DEFAULT_PASS && (p.includes("=") || p.length > 30)){
-    localStorage.removeItem("appUser");
-    localStorage.removeItem("appPass");
+  const p=localStorage.getItem("appPass_idris");
+  if(p&&p!==DEFAULT_PASS&&(p.includes("=")||p.length>30)){
+    localStorage.removeItem("appUser_idris");
+    localStorage.removeItem("appPass_idris");
   }
 })();
 
@@ -449,9 +479,10 @@ function doLogin(){
 function doLogout(){
   document.getElementById("app").style.display="none";
   document.getElementById("login-screen").style.display="flex";
-  document.getElementById("l-user").value="";
+  document.getElementById("l-user").value="idrismansoor";
   document.getElementById("l-pass").value="";
   document.getElementById("login-err").textContent="";
+  linkEditMode=false;
 }
 
 function doChangeCreds(){
@@ -465,7 +496,8 @@ function doChangeCreds(){
   if(np.length<4){e.textContent="❌ কমপক্ষে ৪ অক্ষর!";return;}
   if(np!==np2){e.textContent="❌ Password মিলছে না!";return;}
   const finalUser=nu||c.user;
-  localStorage.setItem("appUser",finalUser);localStorage.setItem("appPass",np);
+  localStorage.setItem("appUser_idris",finalUser);
+  localStorage.setItem("appPass_idris",np);
   document.getElementById("l-user").value=finalUser;
   closeModal("creds-modal");
   ["c-old","c-user","c-new","c-new2"].forEach(id=>document.getElementById(id).value="");
@@ -499,11 +531,11 @@ async function loadFromSheets(){
     const res=await fetch(API_URL,{redirect:"follow"});
     const data=await res.json();
     if(data.status==="ok"){
-      rows=data.rows;localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
+      rows=data.rows;localStorage.setItem("tosKhoBackup_idris",JSON.stringify(rows));
       setStatus("✅ "+rows.length+" টি entry load হয়েছে — Google Sheets সংযুক্ত","ok");
     }else throw new Error();
   }catch(e){
-    const b=localStorage.getItem("tosKhoBackup");
+    const b=localStorage.getItem("tosKhoBackup_idris");
     if(b){rows=JSON.parse(b);setStatus("⚠️ Google Sheets সংযোগ ব্যর্থ — Local backup দেখানো হচ্ছে ("+rows.length+" entry)। Reload করে আবার চেষ্টা করুন।","err");}
     else{rows=[];setStatus("⚠️ সংযোগ ব্যর্থ","err");}
   }
@@ -517,11 +549,11 @@ async function saveToSheets(){
       body:JSON.stringify({action:"save",rows:rows.map((r,i)=>[i+1,r.company,r.user,r.password,r.note])})});
     const data=await res.json();
     if(data.status==="ok"){
-      localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
+      localStorage.setItem("tosKhoBackup_idris",JSON.stringify(rows));
       setStatus("✅ "+rows.length+" টি entry save হয়েছে!","ok");toast("💾 Save সফল!");
     }else throw new Error();
   }catch(e){
-    localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
+    localStorage.setItem("tosKhoBackup_idris",JSON.stringify(rows));
     setStatus("⚠️ Local এ save হয়েছে","err");
   }
 }
@@ -554,7 +586,7 @@ function exportCSV(){
     ...rows.map((r,i)=>[i+1,`"${r.company}"`,`"${r.user}"`,`"${r.password}"`,`"${r.note}"`].join(","))].join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"}));
-  a.download="user-pw-list-v1.csv";a.click();toast("📤 Export হয়েছে!");
+  a.download="user-pw-list-idris.csv";a.click();toast("📤 Export হয়েছে!");
 }
 
 function doImportCSV(){
@@ -564,18 +596,17 @@ function doImportCSV(){
   const reader=new FileReader();
   reader.onload=function(e){
     const lines=e.target.result.split("\n").map(l=>l.trim()).filter(l=>l);
-    rows=[];
-    let n=0;
+    rows=[];let n=0;
     lines.forEach((line,idx)=>{
       if(idx===0&&(line.toLowerCase().startsWith("#")||line.toLowerCase().includes("company")))return;
       const cols=line.split(",").map(c=>c.replace(/^"|"$/g,"").trim());
       if(cols.length<2)return;
       rows.push({company:cols[1]||cols[0]||"",user:cols[2]||"",password:cols[3]||"",note:cols[4]||""});n++;
     });
-    localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
+    localStorage.setItem("tosKhoBackup_idris",JSON.stringify(rows));
     renderAll();closeModal("import-modal");
     document.getElementById("csv-file").value="";
-    setStatus("✅ "+n+" টি import হয়েছে (পুরনো data replace)। 💾 Save করুন।","ok");toast("📥 "+n+" টি replace import!");
+    setStatus("✅ "+n+" টি import হয়েছে। 💾 Save করুন।","ok");toast("📥 "+n+" টি replace import!");
   };
   reader.readAsText(file,"UTF-8");
 }
@@ -596,7 +627,7 @@ function renderAll(){
 function renderDesktop(filtered){
   const tbody=document.getElementById("desk-tbody");
   tbody.innerHTML="";
-  filtered.forEach((r,fi)=>{
+  filtered.forEach((r)=>{
     const i=r._i;
     const tr=document.createElement("tr");
     tr.innerHTML=`
@@ -622,7 +653,7 @@ function renderDesktop(filtered){
 function renderMobile(filtered){
   const list=document.getElementById("mobile-list");
   list.innerHTML="";
-  filtered.forEach((r,fi)=>{
+  filtered.forEach((r)=>{
     const i=r._i;
     const card=document.createElement("div");
     card.className="card";
