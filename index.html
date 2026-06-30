@@ -20,7 +20,7 @@ body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;font-size:15px;}
 .login-box .sub{color:#aaa;font-size:0.78rem;margin-bottom:20px;}
 .lf{margin-bottom:14px;text-align:left;}
 .lf label{display:block;color:#aaa;font-size:0.82rem;margin-bottom:5px;}
-.lf .inp-wrap{position:relative;}
+.inp-wrap{position:relative;}
 .lf input{width:100%;padding:11px 14px;border-radius:8px;border:2px solid #2a2a4a;background:#0f3460;color:#eee;font-size:1rem;}
 .lf input:focus{outline:none;border-color:#e94560;}
 .eye-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;font-size:1.1rem;cursor:pointer;padding:4px;}
@@ -77,7 +77,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 #desk-table thead th{padding:8px 8px;text-align:left;color:#e94560;font-size:0.88rem;background:#0f3460;border-bottom:2px solid #e94560;border-right:1px solid #1a3a6a;white-space:nowrap;}
 #desk-table thead th:last-child{border-right:none;text-align:center;}
 #desk-table tbody tr{border-bottom:1px solid #2a2a4a;}
-#desk-table tbody tr:hover{background:#1a2a3a;}
+#desk-table tbody tr:hover{background:#760542;}
 #desk-table tbody td{padding:7px 8px;border-right:1px solid #1e2a4a;vertical-align:middle;overflow:hidden;}
 #desk-table tbody td:last-child{border-right:none;text-align:center;}
 .cell-flex{display:flex;align-items:center;gap:4px;}
@@ -185,15 +185,15 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 <!-- CHANGE CREDS MODAL -->
 <div class="modal-bg" id="creds-modal" style="display:none">
   <div class="modal">
-    <h3>🔑 Login পরিবর্তন</h3>
+    <h3>🔑 পাসওয়ার্ড পরিবর্তন করুন</h3>
     <label>বর্তমান Password</label>
-    <input type="password" id="c-old" placeholder="বর্তমান password" autocomplete="new-password"/>
-    <label>নতুন Username</label>
+    <div class="inp-wrap"><input type="password" id="c-old" placeholder="বর্তমান password" autocomplete="new-password" style="padding-right:44px;"/><button class="eye-btn" onclick="toggleEyeFor('c-old',this)" type="button">👁️</button></div>
+    <label>নতুন Username (ঐচ্ছিক)</label>
     <input type="text" id="c-user" placeholder="নতুন username" autocomplete="off"/>
     <label>নতুন Password</label>
-    <input type="password" id="c-new" placeholder="কমপক্ষে ৪ অক্ষর" autocomplete="new-password"/>
+    <div class="inp-wrap"><input type="password" id="c-new" placeholder="কমপক্ষে ৪ অক্ষর" autocomplete="new-password" style="padding-right:44px;"/><button class="eye-btn" onclick="toggleEyeFor('c-new',this)" type="button">👁️</button></div>
     <label>নতুন Password আবার</label>
-    <input type="password" id="c-new2" placeholder="confirm" autocomplete="new-password"/>
+    <div class="inp-wrap"><input type="password" id="c-new2" placeholder="confirm" autocomplete="new-password" style="padding-right:44px;"/><button class="eye-btn" onclick="toggleEyeFor('c-new2',this)" type="button">👁️</button></div>
     <div class="modal-err" id="creds-err"></div>
     <div class="modal-btns">
       <button class="btn-ok" onclick="doChangeCreds()">✅ পরিবর্তন</button>
@@ -205,13 +205,12 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 <!-- IMPORT MODAL -->
 <div class="modal-bg" id="import-modal" style="display:none">
   <div class="modal">
-    <h3>📥 CSV Import (Replace)</h3>
-    <p style="color:#aaa;font-size:.82rem;margin-bottom:6px;">ফরম্যাট: #, Company, Username, Password, Note</p>
-    <p style="color:#e74c3c;font-size:.82rem;margin-bottom:12px;">⚠️ Import করলে আগের সব data মুছে নতুন data replace হবে!</p>
+    <h3>📥 CSV Import</h3>
+    <p style="color:#aaa;font-size:.82rem;margin-bottom:12px;">ফরম্যাট: #, Company, Username, Password, Note</p>
     <input type="file" id="csv-file" accept=".csv" style="color:#eee;width:100%;margin-bottom:10px;"/>
     <div class="modal-err" id="import-err"></div>
     <div class="modal-btns">
-      <button class="btn-ok" onclick="doImportCSV()">📥 Replace & Import</button>
+      <button class="btn-ok" onclick="doImportCSV()">📥 Import</button>
       <button class="btn-cancel" onclick="closeModal('import-modal')">❌ বাতিল</button>
     </div>
   </div>
@@ -227,7 +226,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
           <div class="byline">Created by <b style="color:#2ecc71;">Idris Mansoor</b></div>
         </div>
         <div class="header-right">
-          <button class="icon-btn" onclick="document.getElementById('creds-modal').style.display='flex'">🔑 Login</button>
+          <button class="icon-btn" onclick="document.getElementById('creds-modal').style.display='flex'">🔑 Change PW</button>
           <button class="icon-btn" onclick="doLogout()">🚪 Logout</button>
           <button class="icon-btn" onclick="document.getElementById('import-modal').style.display='flex'">📥 Import</button>
           <button class="icon-btn" onclick="exportCSV()">📤 Export</button>
@@ -309,6 +308,14 @@ function toggleEye(){
   }catch(e){}
 }
 
+function toggleEyeFor(id,btn){
+  try{
+    const i=document.getElementById(id);
+    if(i.type==="password"){i.type="text";btn.textContent="🙈";}
+    else{i.type="password";btn.textContent="👁️";}
+  }catch(e){}
+}
+
 function doLogin(){
   try{
     const u=document.getElementById("l-user").value.trim();
@@ -330,6 +337,7 @@ function doLogin(){
 function doLogout(){
   document.getElementById("app").style.display="none";
   document.getElementById("login-screen").style.display="flex";
+  document.getElementById("l-user").value="";
   document.getElementById("l-pass").value="";
   document.getElementById("login-err").textContent="";
 }
@@ -342,13 +350,14 @@ function doChangeCreds(){
   const e=document.getElementById("creds-err");
   const c=getCreds();
   if(op!==c.pass){e.textContent="❌ বর্তমান password ভুল!";return;}
-  if(!nu){e.textContent="❌ নতুন username দিন!";return;}
   if(np.length<4){e.textContent="❌ কমপক্ষে ৪ অক্ষর!";return;}
   if(np!==np2){e.textContent="❌ Password মিলছে না!";return;}
-  localStorage.setItem("appUser",nu);localStorage.setItem("appPass",np);
+  const finalUser=nu||c.user;
+  localStorage.setItem("appUser",finalUser);localStorage.setItem("appPass",np);
+  document.getElementById("l-user").value=finalUser;
   closeModal("creds-modal");
   ["c-old","c-user","c-new","c-new2"].forEach(id=>document.getElementById(id).value="");
-  toast("✅ Login পরিবর্তন হয়েছে!");
+  toast("✅ Password পরিবর্তন হয়েছে!");
 }
 
 function closeModal(id){document.getElementById(id).style.display="none";}
@@ -391,37 +400,17 @@ async function loadFromSheets(){
 
 async function saveToSheets(){
   setStatus("⏳ Save হচ্ছে...","loading");
-  const payload=JSON.stringify({action:"save",rows:rows.map((r,i)=>[i+1,r.company,r.user,r.password,r.note||""])});
   try{
-    const res=await fetch(API_URL,{
-      method:"POST",
-      redirect:"follow",
-      headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:payload
-    });
-    const txt=await res.text();
-    const data=JSON.parse(txt);
+    const res=await fetch(API_URL,{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain"},
+      body:JSON.stringify({action:"save",rows:rows.map((r,i)=>[i+1,r.company,r.user,r.password,r.note])})});
+    const data=await res.json();
     if(data.status==="ok"){
       localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
-      setStatus("✅ "+rows.length+" টি entry Google Sheets এ save হয়েছে!","ok");
-      toast("💾 Save সফল!");
-    }else throw new Error("status:"+data.status);
+      setStatus("✅ "+rows.length+" টি entry save হয়েছে!","ok");toast("💾 Save সফল!");
+    }else throw new Error();
   }catch(e){
-    // Fallback: GET with encoded data
-    try{
-      const enc=encodeURIComponent(payload);
-      const res2=await fetch(API_URL+"?action=save&data="+enc,{redirect:"follow"});
-      const data2=JSON.parse(await res2.text());
-      if(data2.status==="ok"){
-        localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
-        setStatus("✅ "+rows.length+" টি entry save হয়েছে!","ok");
-        toast("💾 Save সফল!");
-        return;
-      }
-    }catch(e2){}
     localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
-    setStatus("⚠️ Google Sheets সংযোগ ব্যর্থ — Local এ save হয়েছে","err");
-    toast("⚠️ Sheet সংযোগ ব্যর্থ!");
+    setStatus("⚠️ Local এ save হয়েছে","err");
   }
 }
 
@@ -459,7 +448,6 @@ function exportCSV(){
 function doImportCSV(){
   const file=document.getElementById("csv-file").files[0];
   if(!file){document.getElementById("import-err").textContent="❌ ফাইল বেছে নিন!";return;}
-  if(!confirm("⚠️ আগের সব data মুছে নতুন CSV দিয়ে replace হবে। নিশ্চিত?"))return;
   const reader=new FileReader();
   reader.onload=function(e){
     const lines=e.target.result.split("\n").map(l=>l.trim()).filter(l=>l);
@@ -474,7 +462,7 @@ function doImportCSV(){
     localStorage.setItem("tosKhoBackup",JSON.stringify(rows));
     renderAll();closeModal("import-modal");
     document.getElementById("csv-file").value="";
-    setStatus("✅ "+n+" টি import হয়েছে (পুরনো data replace)। 💾 Save করুন।","ok");toast("📥 "+n+" টি replace import!");
+    setStatus("✅ "+n+" টি import হয়েছে। 💾 Save করুন।","ok");toast("📥 "+n+" টি import!");
   };
   reader.readAsText(file,"UTF-8");
 }
@@ -499,7 +487,7 @@ function renderDesktop(filtered){
     const i=r._i;
     const tr=document.createElement("tr");
     tr.innerHTML=`
-      <td class="sn">${fi+1}</td>
+      <td class="sn">${i+1}</td>
       <td><input class="co-input" value="${esc(r.company)}" oninput="editField(${i},'company',this.value)" autocomplete="off"/></td>
       <td><div class="cell-flex">
         <input value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off"/>
@@ -526,7 +514,7 @@ function renderMobile(filtered){
     const card=document.createElement("div");
     card.className="card";
     card.innerHTML=`
-      <div class="card-company">${fi+1}. ${esc(r.company)}</div>
+      <div class="card-company">${i+1}. ${esc(r.company)}</div>
       <div class="card-row">
         <label>👤</label>
         <input value="${esc(r.user)}" oninput="editField(${i},'user',this.value)" autocomplete="off"/>
