@@ -89,7 +89,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 .cell-flex input{flex:1;min-width:0;background:transparent;border:none;color:#00fbfe;font-size:0.88rem;font-family:Arial,sans-serif;padding:2px 3px;outline:none;}
 .cell-flex input:focus{background:#0f3460;border-radius:3px;}
 .cell-flex input.mono{font-family:monospace;}
-.co-input{width:100%;background:transparent;border:none;color:#00fbfe;font-size:0.9rem;font-weight:bold;font-family:Arial,sans-serif;padding:2px 3px;outline:none;}
+.co-input{width:100%;background:transparent;border:none;color:#00fbfe;font-size:0.9rem;font-weight:normal;font-family:Arial,sans-serif;padding:2px 3px;outline:none;}
 .co-input:focus{background:#0f3460;border-radius:3px;}
 .cpbtn{background:#0a1a3a;border:1px solid #2dd4ff66;color:#2dd4ff;padding:3px 7px;font-size:0.78rem;border-radius:8px;cursor:pointer;flex-shrink:0;}
 .cpbtn:hover{box-shadow:0 0 6px #2dd4ff77;}
@@ -100,7 +100,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
 /* MOBILE CARDS */
 #mobile-list{display:none;padding:6px;}
 .card{background:#16213e;border:1px solid #2a2a4a;border-radius:8px;padding:10px 12px;margin-bottom:8px;}
-.card-company{font-weight:bold;font-size:1rem;color:#00fbfe;margin-bottom:8px;word-break:break-word;}
+.card-company{font-weight:normal;font-size:1rem;color:#00fbfe;margin-bottom:8px;word-break:break-word;}
 .card-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .card-row label{color:#aaa;font-size:0.78rem;min-width:22px;}
 .card-row input{flex:1;background:#0f3460;border:none;border-radius:5px;color:#00fbfe;font-size:0.9rem;padding:6px 8px;outline:none;}
@@ -165,14 +165,14 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
     </div>
     <div id="login-err"></div>
     <button class="btn-login" onclick="doLogin()">🔓 প্রবেশ করুন</button>
-    <div class="login-footer">Only S E A SHIPPING Employee Used.<br>Released -July 2026</div>
+    <div class="login-footer">Only S E A SHIPPING Employee Used.<br>Start Date - July 2026</div>
   </div>
 </div>
 
 <!-- ADD MODAL -->
 <div class="modal-bg" id="add-modal" style="display:none">
   <div class="modal">
-    <h3>➕নতুন ইউজার পাসওয়ার্ড এ্যাড করুন </h3>
+    <h3>➕ নতুন কোম্পানি এ্যাড করুন</h3>
     <label>🏢 Company Name</label>
     <input type="text" id="inp-company" placeholder="Company Name" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('inp-user').focus()"/>
     <label>👤 User Name</label>
@@ -247,13 +247,11 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
   <div id="sticky-top">
     <header>
       <div class="header-top">
-        <div class="header-left" style="text-align:left;">
-          <div style="display:inline-flex;align-items:center;gap:10px;background:#0a0a1a;border:1px solid #2dd4ff;border-radius:10px;padding:6px 18px;box-shadow:0 0 10px #2dd4ff55;">
-            <span style="font-size:1.4rem;filter:drop-shadow(0 0 6px #c026d3);">🗂️</span>
-            <div style="text-align:left;">
-              <div style="background:linear-gradient(90deg,#c026d3,#2dd4ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.05rem;font-weight:900;letter-spacing:0.5px;line-height:1.1;">USER PW LIST V.1</div>
-              <div style="color:#2dd4ff;font-size:0.75rem;line-height:1.1;text-shadow:0 0 4px #2dd4ff88;">Created by Idris Mansoor</div>
-            </div>
+        <div class="header-left" style="flex:1;text-align:center;">
+          <div style="display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:#0a0a1a;border:1px solid #2dd4ff;border-radius:50%;width:120px;height:120px;justify-content:center;box-shadow:0 0 14px #2dd4ff66,inset 0 0 14px #2dd4ff22;">
+            <span style="font-size:1.6rem;filter:drop-shadow(0 0 6px #c026d3);">🗂️</span>
+            <div style="background:linear-gradient(90deg,#c026d3,#2dd4ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:0.95rem;font-weight:900;letter-spacing:0.3px;line-height:1.1;text-align:center;">USER PW LIST</div>
+            <div style="color:#2dd4ff;font-size:0.62rem;line-height:1.1;text-shadow:0 0 4px #2dd4ff88;text-align:center;">Created by<br>Idris Mansoor</div>
           </div>
         </div>
         <div class="header-right">
@@ -271,7 +269,7 @@ header{background:linear-gradient(135deg,#16213e,#0f3460);border-bottom:2px soli
     </header>
     <div class="toolbar">
       <div class="t-btns">
-        <button class="btn-add" onclick="openAddModal()">➕ Add New User PW</button>
+        <button class="btn-add" onclick="openAddModal()">➕ নতুন কোম্পানি এ্যাড করুন</button>
         <button class="btn-save" onclick="saveToSheets()">💾 Save</button>
         <button class="btn-reload" onclick="loadFromSheets()">🔄 Reload</button>
       </div>
@@ -504,7 +502,7 @@ async function loadFromSheets(){
     }else throw new Error();
   }catch(e){
     const b=localStorage.getItem("tosKhoBackup");
-    if(b){rows=JSON.parse(b);setStatus("⚠️ Local backup: "+rows.length+" entry","err");}
+    if(b){rows=JSON.parse(b);setStatus("⚠️ Google Sheets সংযোগ ব্যর্থ — Local backup দেখানো হচ্ছে ("+rows.length+" entry)। Reload করে আবার চেষ্টা করুন।","err");}
     else{rows=[];setStatus("⚠️ সংযোগ ব্যর্থ","err");}
   }
   renderAll();
